@@ -8,7 +8,7 @@ import java.util.Date;
 public class RentalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer loanId;
+    private Integer id;
     @ManyToOne
     @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")
     private BookEntity book;
@@ -28,11 +28,11 @@ public class RentalEntity {
     private Date returnDate;
 
     public Integer getId() {
-        return loanId;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.loanId = id;
+        this.id = id;
     }
 
     public Date getRentalDate() {
