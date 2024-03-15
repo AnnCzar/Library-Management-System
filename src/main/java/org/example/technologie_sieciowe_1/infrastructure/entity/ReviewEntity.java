@@ -8,47 +8,50 @@ import java.util.Date;
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer ReviewID;
+    @Column(name = "id")
+    private Long ReviewID;
 
-//    @ManyToOne
-//    @JoinColumn(name = "bookId")
-//    private BookEntity book;
-//
-//
-//
-//    @ManyToOne
-//    @JoinColumn(name = "userId")
-//    private UserEntity user;
+    @ManyToOne
+    @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")
+    private BookEntity book;
 
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private UserEntity user;
+
+    @Basic
+    @Column(name = "rate")
     private Integer rate;
-
+    @Basic
+    @Column(name = "comment")
     private String comment;
-
+    @Basic
+    @Column(name = "reviewDate")
     private Date reviewDate;
 
-    public Integer getReviewID() {
+    public Long getReviewID() {
         return ReviewID;
     }
 
-    public void setReviewID(Integer reviewID) {
+    public void setReviewID(Long reviewID) {
         ReviewID = reviewID;
     }
 
-//    public BookEntity getBook() {
-//        return book;
-//    }
-//
-//    public void setBook(BookEntity book) {
-//        this.book = book;
-//    }
-//
-//    public UserEntity getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(UserEntity user) {
-//        this.user = user;
-//    }
+    public BookEntity getBook() {
+        return book;
+    }
+
+    public void setBook(BookEntity book) {
+        this.book = book;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
     public Integer getRate() {
         return rate;
@@ -66,11 +69,11 @@ public class ReviewEntity {
         this.comment = comment;
     }
 
-    public void setReviewDate(Date reviewDate) {
-        this.reviewDate = reviewDate;
-    }
-
     public Date getReviewDate() {
         return reviewDate;
+    }
+
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
     }
 }

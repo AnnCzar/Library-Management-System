@@ -8,37 +8,53 @@ import java.util.Date;
 public class RentalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    @ManyToOne
+    private Integer loanid;
+
+    @ManyToOne // git
     @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")
     private BookEntity book;
 
-//    @ManyToOne
-//    @JoinColumn(name = "bookId")
-//    private BookEntity book;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user")
-//    private UserEntity userId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private UserEntity user;
 
-
+    @Basic
+    @Column(name = "rentalDate")
     private Date rentalDate;
-
+    @Basic
+    @Column(name = "rentalEndDate")
     private Date rentalEndDate;
+    @Basic
+    @Column(name = "returnDate")
     private Date returnDate;
 
-    public Integer getId() {
-        return id;
+    public Integer getLoanid() {
+        return loanid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLoanid(Integer loanid) {
+        this.loanid = loanid;
+    }
+
+    public BookEntity getBook() {
+        return book;
+    }
+
+    public void setBook(BookEntity book) {
+        this.book = book;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public Date getRentalDate() {
         return rentalDate;
     }
-
 
     public void setRentalDate(Date rentalDate) {
         this.rentalDate = rentalDate;
@@ -59,9 +75,4 @@ public class RentalEntity {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
-
-
-    //    @OneToMany
-//    @JoinColumn(name="id")
-//    private BookEntity bookId;
 }

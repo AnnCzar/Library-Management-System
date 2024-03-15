@@ -2,35 +2,42 @@ package org.example.technologie_sieciowe_1.infrastructure.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
-    private Integer userId;
-
+    @Column(name = "id")
+    private Long id;
+    @Basic
+    @Column(name = "userName")
     private String userName;
-
+    @Basic
+    @Column(name = "password")
     private String password;
-
-    private String Role;
-
+    @Basic
+    @Column(name = "role")
+    private String role;
+    @Basic
+    @Column(name = "email")
     private String email;
-
+    @Basic
+    @Column(name = "fullUserName")
     private String fullUserName;
 
-//    @OneToMany(mappedBy = "userId")
-//    private Collection<RentalEntity> rentals;
-//
-//    @OneToMany(mappedBy =  "userId")
-//    private Collection<ReviewEntity> reviews;
+    @OneToMany(mappedBy = "user")
+    private List<RentalEntity> rental;
 
-    public Integer getId() {
-        return userId;
+    @OneToMany(mappedBy = "user")
+    private List<ReviewEntity> review;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setId(Integer id) {
-        this.userId = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -50,11 +57,11 @@ public class UserEntity {
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(String role) {
-        Role = role;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -73,13 +80,19 @@ public class UserEntity {
         this.fullUserName = fullUserName;
     }
 
-    //    W tabeli tej będą przechowywane informacje o użytkownikach systemu bibliotecznego, zarówno o czytelnikach,
-//    jak i pracownikach biblioteki.
-//    • UserID (klucz podstawowy): unikalny identyfikator każdego użytkownika.
-//    • Nazwa użytkownika: nazwa użytkownika wybrana przez użytkownika.
-//    • Hasło: zaszyfrowane hasło do uwierzytelniania użytkownika.
-//
-//    • Rola: Określa rolę użytkownika (np. Czytelnik lub Pracownik biblioteki).
-//    • E-mail: adres e-mail użytkownika.
-//    • Nazwa: Pełna nazwa użytkownika.
+    public List<RentalEntity> getRental() {
+        return rental;
+    }
+
+    public void setRental(List<RentalEntity> rental) {
+        this.rental = rental;
+    }
+
+    public List<ReviewEntity> getReview() {
+        return review;
+    }
+
+    public void setReview(List<ReviewEntity> review) {
+        this.review = review;
+    }
 }
