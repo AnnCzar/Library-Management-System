@@ -27,7 +27,7 @@ public class UserEntity {
     private String fullUserName;
 
     @OneToMany(mappedBy = "user")
-    private List<RentalEntity> rental;
+    private List<LoanEntity> rental;
 
     @OneToMany(mappedBy = "user")
     private List<ReviewEntity> review;
@@ -80,11 +80,11 @@ public class UserEntity {
         this.fullUserName = fullUserName;
     }
 
-    public List<RentalEntity> getRental() {
+    public List<LoanEntity> getRental() {
         return rental;
     }
 
-    public void setRental(List<RentalEntity> rental) {
+    public void setRental(List<LoanEntity> rental) {
         this.rental = rental;
     }
 

@@ -1,8 +1,6 @@
 package org.example.technologie_sieciowe_1.controllers;
 
-import org.example.technologie_sieciowe_1.infrastructure.entity.RentalEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
-import org.example.technologie_sieciowe_1.infrastructure.repositories.ReviewRepository;
 import org.example.technologie_sieciowe_1.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,6 @@
 package org.example.technologie_sieciowe_1.service;
 
-import org.example.technologie_sieciowe_1.controllers.dto.CreateBookDto;
-import org.example.technologie_sieciowe_1.controllers.dto.CreateBookResponeDto;
-import org.example.technologie_sieciowe_1.controllers.dto.GetBookDto;
+
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;

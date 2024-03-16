@@ -29,7 +29,7 @@ public class BookEntity {
     @Column(name = "numberCopy")
     private Integer numberCopy;
     @OneToMany(mappedBy = "book")  // git
-    private List<RentalEntity> rental;
+    private List<LoanEntity> rental;
     @OneToOne(mappedBy = "book") // git
     private BookDetailsEntity bookDetails;
 
@@ -92,11 +92,11 @@ public class BookEntity {
         this.numberCopy = numberCopy;
     }
 
-    public List<RentalEntity> getRental() {
+    public List<LoanEntity> getRental() {
         return rental;
     }
 
-    public void setRental(List<RentalEntity> rental) {
+    public void setRental(List<LoanEntity> rental) {
         this.rental = rental;
     }
 
