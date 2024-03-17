@@ -23,8 +23,8 @@ public class BookDetailsController {
         return bookDetailsService.getAll();
     }
     @GetMapping("/getById")
-    public BookDetailsEntity getById(@PathVariable Long id) {
-        return bookDetailsService.getById(Math.toIntExact(id));
+    public BookDetailsEntity getById(Integer id) {
+        return bookDetailsService.getById(id);
     }
 
     @PostMapping("/add")
@@ -34,7 +34,7 @@ public class BookDetailsController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(@PathVariable Long id) {
+    public void delete(Integer id) {
         bookDetailsService.delete(id);
     }
 }

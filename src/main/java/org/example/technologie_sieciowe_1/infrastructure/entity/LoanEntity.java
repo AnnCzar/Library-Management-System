@@ -19,11 +19,11 @@ public class LoanEntity {
     private UserEntity user;
 
     @Basic
-    @Column(name = "rentalDate")
-    private Date rentalDate;
+    @Column(name = "loanDate")
+    private Date loanDate;
     @Basic
-    @Column(name = "rentalEndDate")
-    private Date rentalEndDate;
+    @Column(name = "loanEndDate")
+    private Date loanEndDate;
     @Basic
     @Column(name = "returnDate")
     private Date returnDate;
@@ -52,20 +52,20 @@ public class LoanEntity {
         this.user = user;
     }
 
-    public Date getRentalDate() {
-        return rentalDate;
+    public Date getLoanDate() {
+        return loanDate;
     }
 
-    public void setRentalDate(Date rentalDate) {
-        this.rentalDate = rentalDate;
+    public void setLoanDate(Date loanDate) {
+        this.loanDate = loanDate;
     }
 
-    public Date getRentalEndDate() {
-        return rentalEndDate;
+    public Date getLoanEndDate() {
+        return loanEndDate;
     }
 
-    public void setRentalEndDate(Date rentalEndDate) {
-        this.rentalEndDate = rentalEndDate;
+    public void setLoanEndDate(Date loanEndDate) {
+        this.loanEndDate = loanEndDate;
     }
 
     public Date getReturnDate() {

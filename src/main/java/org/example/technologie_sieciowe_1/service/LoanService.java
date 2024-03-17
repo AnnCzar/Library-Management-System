@@ -23,12 +23,12 @@ public class LoanService {
         return loanRepository.findById(id).orElse(null);
     }
 
-    public LoanEntity add(LoanEntity rental) {
-        return loanRepository.save(rental);
+    public LoanEntity add(LoanEntity loan) {
+        return loanRepository.save(loan);
     }
 
-    public void delete(Long id) {
-        loanRepository.deleteById(Math.toIntExact(id));
+    public void delete(Integer id) {
+        loanRepository.deleteById(id);
     }
 
 

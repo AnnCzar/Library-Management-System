@@ -26,7 +26,7 @@ public class BookController {
         return bookService.getAll();
     }
     @GetMapping("/getById")
-    public BookEntity getById(@PathVariable Long id) {
+    public BookEntity getById(Integer id) {
         return bookService.getById(Math.toIntExact(id));
     }
 
@@ -37,7 +37,7 @@ public class BookController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(@PathVariable Long id) {
+    public void delete(Integer id) {
         bookService.delete(id);
     }
 

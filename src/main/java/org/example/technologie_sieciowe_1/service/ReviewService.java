@@ -26,8 +26,8 @@ public class ReviewService {
     public ReviewEntity add(ReviewEntity review) {
         return reviewRepository.save(review);
     }
-    public void delete(Long id) {
-        reviewRepository.deleteById(Math.toIntExact(id));
+    public void delete(Integer id) {
+        reviewRepository.deleteById(id);
     }
 
 

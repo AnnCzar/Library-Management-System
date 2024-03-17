@@ -29,8 +29,8 @@ public class BookDetailsService {
         return bookDetailsRepository.save(book);
     }
 
-    public void delete(Long id) {
-        bookDetailsRepository.deleteById(Math.toIntExact(id));
+    public void delete(Integer id) {
+        bookDetailsRepository.deleteById(id);
     }
 
 }

@@ -19,8 +19,8 @@ public class ReviewController {
         return reviewService.getAll();
     }
     @GetMapping("/getById")
-    public @ResponseBody ReviewEntity getById(@PathVariable Long id) {
-        return reviewService.getById(Math.toIntExact(id));
+    public @ResponseBody ReviewEntity getById(Integer id) {
+        return reviewService.getById(id);
     }
 
     @PostMapping("/add")
@@ -29,7 +29,7 @@ public class ReviewController {
         return reviewService.add(review);
     }
     @DeleteMapping("/delete")
-    public void delete(@PathVariable Long id) {
+    public void delete(Integer id) {
         reviewService.delete(id);
     }
 

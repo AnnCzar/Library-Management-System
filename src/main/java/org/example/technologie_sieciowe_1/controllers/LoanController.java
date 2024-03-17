@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/rental")
+@RequestMapping("/loan")
 
 public class LoanController {
     private final LoanService loanService;
@@ -23,8 +23,8 @@ public class LoanController {
     }
 
     @GetMapping("/getById")
-    public LoanEntity getById(@PathVariable Long id) {
-        return loanService.getById(Math.toIntExact(id));
+    public LoanEntity getById(Integer id) {
+        return loanService.getById(id);
     }
 
     @PostMapping("/add")
@@ -34,7 +34,7 @@ public class LoanController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(@PathVariable Long id) {
+    public void delete(Integer id) {
         loanService.delete(id);
     }
 
