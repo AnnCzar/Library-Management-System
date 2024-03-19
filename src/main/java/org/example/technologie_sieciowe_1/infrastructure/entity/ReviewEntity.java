@@ -9,7 +9,7 @@ public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long ReviewID;
+    private Integer ReviewID;
 
     @ManyToOne
     @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")
@@ -29,11 +29,11 @@ public class ReviewEntity {
     @Column(name = "reviewDate")
     private Date reviewDate;
 
-    public Long getReviewID() {
+    public Integer getReviewID() {
         return ReviewID;
     }
 
-    public void setReviewID(Long reviewID) {
+    public void setReviewID(Integer reviewID) {
         ReviewID = reviewID;
     }
 
