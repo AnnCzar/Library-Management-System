@@ -1,35 +1,23 @@
-package org.example.technologie_sieciowe_1.controllers.dto;
+package org.example.technologie_sieciowe_1.controllers.dto.create;
 
-import jakarta.persistence.*;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 
 import java.util.Date;
 
-public class GetLoanDto {
-
-    private Integer loanid;
+public class CreateLoanDto {
     private BookEntity book;
     private UserEntity user;
     private Date loanDate;
     private Date loanEndDate;
     private Date returnDate;
 
-    public GetLoanDto(Integer loanid, BookEntity book, UserEntity user, Date loanDate, Date loanEndDate, Date returnDate) {
-        this.loanid = loanid;
+    public CreateLoanDto(BookEntity book, UserEntity user, Date loanDate, Date loanEndDate, Date returnDate) {
         this.book = book;
         this.user = user;
         this.loanDate = loanDate;
         this.loanEndDate = loanEndDate;
         this.returnDate = returnDate;
-    }
-
-    public Integer getLoanid() {
-        return loanid;
-    }
-
-    public void setLoanid(Integer loanid) {
-        this.loanid = loanid;
     }
 
     public BookEntity getBook() {

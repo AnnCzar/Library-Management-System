@@ -1,15 +1,12 @@
-package org.example.technologie_sieciowe_1.controllers.dto;
+package org.example.technologie_sieciowe_1.controllers.dto.create;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 
 import java.util.List;
 
-public class GetUserDto {
-    private Integer id;
+public class CreateUserDto {
+
     private String userName;
     private String password;
     private String role;
@@ -18,8 +15,7 @@ public class GetUserDto {
     private List<LoanEntity> rental;
     private List<ReviewEntity> review;
 
-    public GetUserDto(Integer id, String userName, String password, String role, String email, String fullUserName, List<LoanEntity> rental, List<ReviewEntity> review) {
-        this.id = id;
+    public CreateUserDto(String userName, String password, String role, String email, String fullUserName, List<LoanEntity> rental, List<ReviewEntity> review) {
         this.userName = userName;
         this.password = password;
         this.role = role;
@@ -27,14 +23,6 @@ public class GetUserDto {
         this.fullUserName = fullUserName;
         this.rental = rental;
         this.review = review;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUserName() {

@@ -1,15 +1,14 @@
-package org.example.technologie_sieciowe_1.controllers.dto;
+package org.example.technologie_sieciowe_1.controllers.dto.create;
 
-import jakarta.persistence.*;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 
 import java.util.List;
 
-public class GetBookDto {
+public class CreateBookDto {
 
-    private Integer id;
+
     private String isbn;
     private String title;
     private String author;
@@ -20,8 +19,7 @@ public class GetBookDto {
     private BookDetailsEntity bookDetails;
     private List<ReviewEntity> review;
 
-    public GetBookDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy, List<LoanEntity> loan, BookDetailsEntity bookDetails, List<ReviewEntity> review) {
-        this.id = id;
+    public CreateBookDto(String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy, List<LoanEntity> loan, BookDetailsEntity bookDetails, List<ReviewEntity> review) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -31,14 +29,6 @@ public class GetBookDto {
         this.loan = loan;
         this.bookDetails = bookDetails;
         this.review = review;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getIsbn() {

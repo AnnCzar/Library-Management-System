@@ -1,30 +1,18 @@
-package org.example.technologie_sieciowe_1.controllers.dto;
+package org.example.technologie_sieciowe_1.controllers.dto.create;
 
-import jakarta.persistence.*;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 
-public class GetBookDetailsDto {
-
-    private Integer id;
+public class CreateBookDetailsDto {
     private String genre;
     private String summary;
     private  String CoverImageURL;
     private BookEntity book;
 
-    public GetBookDetailsDto(Integer id, String genre, String summary, String coverImageURL, BookEntity book) {
-        this.id = id;
+    public CreateBookDetailsDto(String genre, String summary, String coverImageURL, BookEntity book) {
         this.genre = genre;
         this.summary = summary;
         CoverImageURL = coverImageURL;
         this.book = book;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getGenre() {
