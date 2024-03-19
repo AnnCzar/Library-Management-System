@@ -5,6 +5,7 @@ import org.example.technologie_sieciowe_1.infrastructure.repositories.UserReposi
 import org.example.technologie_sieciowe_1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -33,6 +34,12 @@ public class UserContorller {
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody UserEntity add(@RequestBody UserEntity userEntity){
         return userService.add(userEntity);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> delete (Integer id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -28,8 +28,11 @@ public class UserService {
     public UserEntity add(UserEntity user) {
         return userRepository.save(user);
     }
-    public void delete(Long id) {
-        userRepository.deleteById(Math.toIntExact(id));
+    public void delete(Integer id) {
+        if(!userRepository.existsById(id)){
+            throw new RuntimeException();
+        }
+        userRepository.deleteById(id);
     }
 
 }

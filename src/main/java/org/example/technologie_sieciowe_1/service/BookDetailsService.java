@@ -30,6 +30,9 @@ public class BookDetailsService {
     }
 
     public void delete(Integer id) {
+        if (!bookDetailsRepository.existsById(id)){
+            throw new RuntimeException();
+        }
         bookDetailsRepository.deleteById(id);
     }
 

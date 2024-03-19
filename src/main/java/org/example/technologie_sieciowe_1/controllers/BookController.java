@@ -6,6 +6,7 @@ import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,7 +27,7 @@ public class BookController {
         return bookService.getAll();
     }
     @GetMapping("/getById")
-    public BookEntity getById(Integer id) {
+    public BookEntity getById( Integer id) {
         return bookService.getById(Math.toIntExact(id));
     }
 
@@ -37,8 +38,9 @@ public class BookController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(Integer id) {
+    public ResponseEntity<Void> delete(Integer id) {
         bookService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 

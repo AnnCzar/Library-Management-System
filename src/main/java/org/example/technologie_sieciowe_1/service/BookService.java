@@ -36,6 +36,9 @@ public class BookService{
     }
 
     public void delete(Integer id) {
+        if (!bookRepository.existsById(id)){
+            throw new RuntimeException();
+        }
         bookRepository.deleteById(id);
     }
 

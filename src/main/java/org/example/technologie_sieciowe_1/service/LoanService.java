@@ -28,6 +28,9 @@ public class LoanService {
     }
 
     public void delete(Integer id) {
+        if (!loanRepository.existsById(id)){
+            throw new RuntimeException();
+        }
         loanRepository.deleteById(id);
     }
 

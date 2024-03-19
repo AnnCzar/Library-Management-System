@@ -27,6 +27,9 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
     public void delete(Integer id) {
+        if(!reviewRepository.existsById(id)){
+            throw new RuntimeException();
+        }
         reviewRepository.deleteById(id);
     }
 
