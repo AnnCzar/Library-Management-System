@@ -1,5 +1,8 @@
 package org.example.technologie_sieciowe_1.controllers;
 
+import org.example.technologie_sieciowe_1.controllers.dto.create.CreateReviewDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetReviewDto;
+import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateReviewResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 import org.example.technologie_sieciowe_1.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +19,17 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
     @GetMapping("/getAll")
-    public @ResponseBody Iterable<ReviewEntity> getAllReview(){
+    public @ResponseBody Iterable<GetReviewDto> getAllReview(){
         return reviewService.getAll();
     }
     @GetMapping("/getById")
-    public @ResponseBody ReviewEntity getById(Integer id) {
+    public @ResponseBody GetReviewDto getById(Integer id) {
         return reviewService.getById(id);
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public @ResponseBody ReviewEntity add(@RequestBody ReviewEntity review){
+    public @ResponseBody CreateReviewResponseDto add(@RequestBody CreateReviewDto review){
         return reviewService.add(review);
     }
     @DeleteMapping("/delete")

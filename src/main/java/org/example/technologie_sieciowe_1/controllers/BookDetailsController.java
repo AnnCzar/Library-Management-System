@@ -1,5 +1,8 @@
 package org.example.technologie_sieciowe_1.controllers;
 
+import org.example.technologie_sieciowe_1.controllers.dto.create.CreateBookDetailsDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDetailsDto;
+import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateBookDetailsResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.BookDetailsRepository;
@@ -20,17 +23,17 @@ public class BookDetailsController {
     }
 
     @GetMapping("/getAll")
-    public Iterable<BookDetailsEntity> getAll() {
+    public Iterable<GetBookDetailsDto> getAll() {
         return bookDetailsService.getAll();
     }
     @GetMapping("/getById")
-    public BookDetailsEntity getById(Integer id) {
+    public GetBookDetailsDto getById(Integer id) {
         return bookDetailsService.getById(id);
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public @ResponseBody BookDetailsEntity save(@RequestBody BookDetailsEntity bookDetails) {
+    public @ResponseBody CreateBookDetailsResponseDto save(@RequestBody CreateBookDetailsDto bookDetails) {
         return bookDetailsService.add(bookDetails);
     }
 

@@ -31,7 +31,7 @@ public class BookController {
     }
     @GetMapping("/getById")
     public GetBookDto getById( Integer id) {
-        return bookService.getById(Math.toIntExact(id));
+        return bookService.getById(id);
     }
 
     @PostMapping("/add")

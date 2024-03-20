@@ -1,5 +1,8 @@
 package org.example.technologie_sieciowe_1.controllers;
 
+import org.example.technologie_sieciowe_1.controllers.dto.create.CreateUserDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetUserDto;
+import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateUserResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.UserRepository;
 import org.example.technologie_sieciowe_1.service.UserService;
@@ -21,18 +24,18 @@ public class UserContorller {
         this.userService = userService;
     }
     @GetMapping("/getAll")
-    public @ResponseBody Iterable<UserEntity> getAll(){
+    public @ResponseBody Iterable<GetUserDto> getAll(){
         return userService.getAll();
     }
 
     @GetMapping("/getById")
-    public @ResponseBody UserEntity getById(Integer id){
+    public @ResponseBody GetUserDto getById(Integer id){
         return userService.getById(id);
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public @ResponseBody UserEntity add(@RequestBody UserEntity userEntity){
+    public @ResponseBody CreateUserResponseDto add(@RequestBody CreateUserDto userEntity){
         return userService.add(userEntity);
     }
 

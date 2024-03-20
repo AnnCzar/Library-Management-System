@@ -1,12 +1,18 @@
 package org.example.technologie_sieciowe_1.service;
 
 import org.apache.catalina.User;
+import org.example.technologie_sieciowe_1.controllers.dto.create.CreateUserDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetUserDto;
+import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateUserResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.ReviewRepository;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
@@ -17,16 +23,53 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Iterable<UserEntity> getAll() {
-        return userRepository.findAll();
+    public Iterable<GetUserDto> getAll() {
+
+        var users = userRepository.findAll();
+        return StreamSupport.stream(users.spliterator(), false)
+                .map(user -> new GetUserDto(user.getId(),
+                        user.getUserName(),
+                        user.getPassword(),
+                        user.getRole(),
+                        user.getEmail(),
+                        user.getFullUserName(),
+                        user.getRental(),
+                        user.getReview()))
+                .collect((Collectors.toList()));
     }
 
-    public UserEntity getById(Integer id){
-        return userRepository.findById(id).orElse(null);
+    public GetUserDto getById(Integer id){
+        var userEntity = userRepository.findById(id).orElse(null);
+        return new GetUserDto(userEntity.getId(),
+                userEntity.getUserName(),
+                userEntity.getPassword(),
+                userEntity.getRole(),
+                userEntity.getEmail(),
+                userEntity.getFullUserName(),
+                userEntity.getRental(),
+                userEntity.getReview());
     }
 
-    public UserEntity add(UserEntity user) {
-        return userRepository.save(user);
+    public CreateUserResponseDto add(CreateUserDto user) {
+
+        var userEntity = new UserEntity();
+        userEntity.setEmail(user.getEmail());
+        userEntity.setUserName(user.getUserName());
+        userEntity.setFullUserName(user.getFullUserName());
+        userEntity.setPassword(user.getPassword());
+        userEntity.setRole(user.getRole());
+        userEntity.setRental(user.getRental());
+        userEntity.setReview(user.getReview());
+
+        var newUser = userRepository.save(userEntity);
+        return new CreateUserResponseDto(newUser.getId(),
+                newUser.getUserName(),
+                newUser.getPassword(),
+                newUser.getRole(),
+                newUser.getEmail(),
+                newUser.getFullUserName(),
+                newUser.getRental(),
+                newUser.getReview());
     }
     public void delete(Integer id) {
         if(!userRepository.existsById(id)){

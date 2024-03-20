@@ -1,5 +1,8 @@
 package org.example.technologie_sieciowe_1.controllers;
 
+import org.example.technologie_sieciowe_1.controllers.dto.create.CreateLoanDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetLoanDto;
+import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateLoanResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
 import org.example.technologie_sieciowe_1.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +22,18 @@ public class LoanController {
     }
 
     @GetMapping("/getAll")
-    public @ResponseBody Iterable<LoanEntity> getAll(){
+    public @ResponseBody Iterable<GetLoanDto> getAll(){
         return loanService.getAll();
     }
 
     @GetMapping("/getById")
-    public LoanEntity getById(Integer id) {
+    public GetLoanDto getById(Integer id) {
         return loanService.getById(id);
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public @ResponseBody LoanEntity add(@RequestBody LoanEntity loanEntity){
+    public @ResponseBody CreateLoanResponseDto add(@RequestBody CreateLoanDto loanEntity){
         return loanService.add(loanEntity);
     }
 

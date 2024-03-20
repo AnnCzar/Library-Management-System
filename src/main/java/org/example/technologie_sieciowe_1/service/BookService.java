@@ -47,6 +47,7 @@ public class BookService{
     public GetBookDto getById(Integer id){
 
         var bookEntity = bookRepository.findById(id).orElse(null);
+        assert bookEntity != null;
         return new  GetBookDto(bookEntity.getId(),
                 bookEntity.getIsbn(),
                 bookEntity.getTitle(),
