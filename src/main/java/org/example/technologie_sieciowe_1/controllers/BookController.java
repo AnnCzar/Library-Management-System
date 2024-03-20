@@ -2,6 +2,9 @@ package org.example.technologie_sieciowe_1.controllers;
 
 
 
+import org.example.technologie_sieciowe_1.controllers.dto.create.CreateBookDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDto;
+import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateBookResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +26,17 @@ public class BookController {
     }
 
     @GetMapping("/getAll")
-    public Iterable<BookEntity> getAll() {
+    public Iterable<GetBookDto> getAll() {
         return bookService.getAll();
     }
     @GetMapping("/getById")
-    public BookEntity getById( Integer id) {
+    public GetBookDto getById( Integer id) {
         return bookService.getById(Math.toIntExact(id));
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public @ResponseBody BookEntity add(@RequestBody BookEntity book) {
+    public @ResponseBody CreateBookResponseDto add(@RequestBody CreateBookDto book) {
         return bookService.add(book);
     }
 
