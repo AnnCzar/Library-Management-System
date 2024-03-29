@@ -8,7 +8,12 @@ import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.ReviewRepository;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.UserRepository;
+//import org.example.technologie_sieciowe_1.security.PasswordConfig;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -16,12 +21,21 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${jwt.token.key}")
+    private String key;
+
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     public Iterable<GetUserDto> getAll() {
 
@@ -50,13 +64,15 @@ public class UserService {
                 userEntity.getReview());
     }
 
+
+
     public CreateUserResponseDto add(CreateUserDto user) {
 
         var userEntity = new UserEntity();
         userEntity.setEmail(user.getEmail());
         userEntity.setUserName(user.getUserName());
         userEntity.setFullUserName(user.getFullUserName());
-        userEntity.setPassword(user.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword())); // Kodowanie hasła
         userEntity.setRole(user.getRole());
         userEntity.setRental(user.getRental());
         userEntity.setReview(user.getReview());
@@ -79,3 +95,4 @@ public class UserService {
     }
 
 }
+
