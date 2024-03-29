@@ -7,19 +7,19 @@ import java.util.List;
 
 public class CreateUserResponseDto {
     private Integer id;
-    private String userName;
-    private String password;
-    private String role;
+//    private String userName;
+//    private String password;
+//    private String role;
     private String email;
     private String fullUserName;
     private List<LoanEntity> rental;
     private List<ReviewEntity> review;
 
-    public CreateUserResponseDto(Integer id, String userName, String password, String role, String email, String fullUserName, List<LoanEntity> rental, List<ReviewEntity> review) {
+    public CreateUserResponseDto(Integer id, String email, String fullUserName, List<LoanEntity> rental, List<ReviewEntity> review) {
         this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.role = role;
+//        this.userName = userName;
+//        this.password = password;
+//        this.role = role;
         this.email = email;
         this.fullUserName = fullUserName;
         this.rental = rental;

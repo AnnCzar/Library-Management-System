@@ -13,7 +13,7 @@ import org.example.technologie_sieciowe_1.infrastructure.repositories.UserReposi
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -24,16 +24,16 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     @Value("${jwt.token.key}")
     private String key;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+//        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -42,9 +42,9 @@ public class UserService {
         var users = userRepository.findAll();
         return StreamSupport.stream(users.spliterator(), false)
                 .map(user -> new GetUserDto(user.getId(),
-                        user.getUserName(),
-                        user.getPassword(),
-                        user.getRole(),
+//                        user.getUserName(),
+//                        user.getPassword(),
+//                        user.getRole(),
                         user.getEmail(),
                         user.getFullUserName(),
                         user.getRental(),
@@ -55,9 +55,9 @@ public class UserService {
     public GetUserDto getById(Integer id){
         var userEntity = userRepository.findById(id).orElse(null);
         return new GetUserDto(userEntity.getId(),
-                userEntity.getUserName(),
-                userEntity.getPassword(),
-                userEntity.getRole(),
+//                userEntity.getUserName(),
+//                userEntity.getPassword(),
+//                userEntity.getRole(),
                 userEntity.getEmail(),
                 userEntity.getFullUserName(),
                 userEntity.getRental(),
@@ -70,18 +70,18 @@ public class UserService {
 
         var userEntity = new UserEntity();
         userEntity.setEmail(user.getEmail());
-        userEntity.setUserName(user.getUserName());
+//        userEntity.setUserName(user.getUserName());
         userEntity.setFullUserName(user.getFullUserName());
-        userEntity.setPassword(passwordEncoder.encode(user.getPassword())); // Kodowanie hasła
-        userEntity.setRole(user.getRole());
+//        userEntity.setPassword(passwordEncoder.encode(user.getPassword())); // Kodowanie hasła
+//        userEntity.setRole(user.getRole());
         userEntity.setRental(user.getRental());
         userEntity.setReview(user.getReview());
 
         var newUser = userRepository.save(userEntity);
         return new CreateUserResponseDto(newUser.getId(),
-                newUser.getUserName(),
-                newUser.getPassword(),
-                newUser.getRole(),
+//                newUser.getUserName(),
+//                newUser.getPassword(),
+//                newUser.getRole(),
                 newUser.getEmail(),
                 newUser.getFullUserName(),
                 newUser.getRental(),

@@ -21,6 +21,6 @@ public interface UserRepository extends CrudRepository<UserEntity,Integer> {
 
     //User findByUserName(String userName);
 //    @Query(value = "SELECT u FROM user u WHERE u.name = :loginForm")
-    UserEntity findByUserName(String userName);
+//    UserEntity findByUserName(String userName);   to jest w auth
 
 }

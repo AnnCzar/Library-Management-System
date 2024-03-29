@@ -11,15 +11,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @Basic
-    @Column(name = "userName")
-    private String userName;
-    @Basic
-    @Column(name = "password")
-    private String password;
-    @Basic
-    @Column(name = "role")
-    private String role;
+
     @Basic
     @Column(name = "email")
     private String email;
@@ -33,6 +25,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<ReviewEntity> review;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private AuthEntity auth;
+
+
     public Integer getId() {
         return id;
     }
@@ -41,29 +37,6 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public String getEmail() {
         return email;
