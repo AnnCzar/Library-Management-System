@@ -1,38 +1,45 @@
 package org.example.technologie_sieciowe_1.controllers.dto.create;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.constraints.NotNull;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 
 import java.util.Date;
 
 public class CreateLoanDto {
-    private BookEntity book;
-    private UserEntity user;
+
+    @NotNull
+    private Integer book;
+    @NotNull
+    private Integer user;
+    @NotNull
     private Date loanDate;
+    @NotNull
     private Date loanEndDate;
     private Date returnDate;
 
-    public CreateLoanDto(BookEntity book, UserEntity user, Date loanDate, Date loanEndDate, Date returnDate) {
+    public CreateLoanDto(Integer book, Integer user, Date loanDate, Date loanEndDate, Date returnDate) {
         this.book = book;
         this.user = user;
-        this.loanDate = loanDate;
+        this.loanDate = new Date(System.currentTimeMillis());
         this.loanEndDate = loanEndDate;
         this.returnDate = returnDate;
     }
 
-    public BookEntity getBook() {
+    public Integer getBook() {
         return book;
     }
 
-    public void setBook(BookEntity book) {
+    public void setBook(Integer book) {
         this.book = book;
     }
 
-    public UserEntity getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 

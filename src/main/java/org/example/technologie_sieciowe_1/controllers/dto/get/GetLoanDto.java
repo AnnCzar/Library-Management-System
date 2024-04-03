@@ -9,13 +9,13 @@ import java.util.Date;
 public class GetLoanDto {
 
     private Integer loanid;
-    private BookEntity book;
-    private UserEntity user;
+    private GetBookDto book;
+    private GetUserDto user;
     private Date loanDate;
     private Date loanEndDate;
     private Date returnDate;
 
-    public GetLoanDto(Integer loanid, BookEntity book, UserEntity user, Date loanDate, Date loanEndDate, Date returnDate) {
+    public GetLoanDto(Integer loanid, GetBookDto book, GetUserDto user, Date loanDate, Date loanEndDate, Date returnDate) {
         this.loanid = loanid;
         this.book = book;
         this.user = user;
@@ -32,19 +32,19 @@ public class GetLoanDto {
         this.loanid = loanid;
     }
 
-    public BookEntity getBook() {
+    public GetBookDto getBook() {
         return book;
     }
 
-    public void setBook(BookEntity book) {
+    public void setBook(GetBookDto book) {
         this.book = book;
     }
 
-    public UserEntity getUser() {
+    public GetUserDto getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(GetUserDto user) {
         this.user = user;
     }
 

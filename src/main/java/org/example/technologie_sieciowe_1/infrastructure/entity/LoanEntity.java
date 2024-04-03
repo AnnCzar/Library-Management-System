@@ -1,28 +1,32 @@
 package org.example.technologie_sieciowe_1.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "loans")
 public class LoanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer loanid;
 
-    @ManyToOne // git
-    @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID", nullable = false)
     private BookEntity book;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     private UserEntity user;
 
     @Basic
-    @Column(name = "loanDate")
+    @Column(name = "loanDate", nullable = false)
     private Date loanDate;
     @Basic
-    @Column(name = "loanEndDate")
+    @Column(name = "loanEndDate", nullable = false)
     private Date loanEndDate;
     @Basic
     @Column(name = "returnDate")

@@ -1,20 +1,23 @@
 package org.example.technologie_sieciowe_1.controllers.dto.create;
 
+import jakarta.validation.constraints.NotNull;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 
 import java.util.Date;
 
 public class CreateReviewDto {
+    @NotNull
     private BookEntity book;
+    @NotNull
     private UserEntity user;
     private Integer rate;
     private String comment;
     private Date reviewDate;
 
-    public CreateReviewDto(BookEntity book, UserEntity user, Integer rate, String comment, Date reviewDate) {
-        this.book = book;
-        this.user = user;
+    public CreateReviewDto(Integer rate, String comment, Date reviewDate) {
+//        this.book = book;
+//        this.user = user;
         this.rate = rate;
         this.comment = comment;
         this.reviewDate = reviewDate;

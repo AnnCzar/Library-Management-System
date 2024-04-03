@@ -4,7 +4,7 @@ import org.example.technologie_sieciowe_1.controllers.dto.create.CreateUserDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetUserDto;
 import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateUserResponseDto;
 
-import org.example.technologie_sieciowe_1.service.UserService;
+import org.example.technologie_sieciowe_1.service.auth_user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +23,13 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping("/getAll")
+    @ResponseStatus(code = HttpStatus.OK)
     public @ResponseBody Iterable<GetUserDto> getAll(){
         return userService.getAll();
     }
 
     @GetMapping("/getById")
+    @ResponseStatus(code = HttpStatus.OK)
     public @ResponseBody GetUserDto getById(Integer id){
         return userService.getById(id);
     }
@@ -40,6 +42,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
+    @Secured("ROLE_LIBRARIAN")
     public ResponseEntity<Void> delete (Integer id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();

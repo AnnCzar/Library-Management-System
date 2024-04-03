@@ -1,5 +1,6 @@
 package org.example.technologie_sieciowe_1.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -28,13 +29,13 @@ public class BookEntity {
     @Basic
     @Column(name = "numberCopy")
     private Integer numberCopy;
-    @OneToMany(mappedBy = "book")  // git
-    private List<LoanEntity> loan;
-    @OneToOne(mappedBy = "book") // git
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)  // git
+    private List<LoanEntity> loans;
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY) // git
     private BookDetailsEntity bookDetails;
 
-    @OneToMany(mappedBy = "book")
-    private List<ReviewEntity> review;
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviews;
 
     public Integer getId() {
         return id;
@@ -92,12 +93,12 @@ public class BookEntity {
         this.numberCopy = numberCopy;
     }
 
-    public List<LoanEntity> getLoan() {
-        return loan;
+    public List<LoanEntity> getLoans() {
+        return loans;
     }
 
-    public void setLoan(List<LoanEntity> loan) {
-        this.loan = loan;
+    public void setLoans(List<LoanEntity> loans) {
+        this.loans = loans;
     }
 
     public BookDetailsEntity getBookDetails() {
@@ -108,12 +109,12 @@ public class BookEntity {
         this.bookDetails = bookDetails;
     }
 
-    public List<ReviewEntity> getReview() {
-        return review;
+    public List<ReviewEntity> getReviews() {
+        return reviews;
     }
 
-    public void setReview(List<ReviewEntity> review) {
-        this.review = review;
+    public void setReviews(List<ReviewEntity> reviews) {
+        this.reviews = reviews;
     }
 }
 

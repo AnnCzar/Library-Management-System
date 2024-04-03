@@ -14,11 +14,8 @@ public class CreateBookResponseDto {
     private String publisher;
     private Integer publishYear;
     private Integer numberCopy;
-    private List<LoanEntity> loan;
-    private List<ReviewEntity> review;
-    private BookDetailsEntity bookDetails;
 
-    public CreateBookResponseDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy, List<LoanEntity> loan, List<ReviewEntity> review, BookDetailsEntity bookDetails) {
+    public CreateBookResponseDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -26,9 +23,6 @@ public class CreateBookResponseDto {
         this.publisher = publisher;
         this.publishYear = publishYear;
         this.numberCopy = numberCopy;
-        this.loan = loan;
-        this.review = review;
-        this.bookDetails = bookDetails;
     }
 
     public Integer getId() {
@@ -87,27 +81,4 @@ public class CreateBookResponseDto {
         this.numberCopy = numberCopy;
     }
 
-    public List<LoanEntity> getLoan() {
-        return loan;
-    }
-
-    public void setLoan(List<LoanEntity> loan) {
-        this.loan = loan;
-    }
-
-    public List<ReviewEntity> getReview() {
-        return review;
-    }
-
-    public void setReview(List<ReviewEntity> review) {
-        this.review = review;
-    }
-
-    public BookDetailsEntity getBookDetails() {
-        return bookDetails;
-    }
-
-    public void setBookDetails(BookDetailsEntity bookDetails) {
-        this.bookDetails = bookDetails;
-    }
 }

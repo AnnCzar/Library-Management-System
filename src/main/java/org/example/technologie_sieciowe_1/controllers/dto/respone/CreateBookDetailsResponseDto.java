@@ -7,14 +7,13 @@ public class CreateBookDetailsResponseDto {
     private String genre;
     private String summary;
     private  String CoverImageURL;
-    private BookEntity book;
-
-    public CreateBookDetailsResponseDto(Integer id, String genre, String summary, String coverImageURL, BookEntity book) {
+    private BookEntity book; // change to GetBookDto
+    public CreateBookDetailsResponseDto(Integer id, String genre, String summary, String coverImageURL) {
         this.id = id;
         this.genre = genre;
         this.summary = summary;
-        CoverImageURL = coverImageURL;
-        this.book = book;
+        this.CoverImageURL = coverImageURL;
+//        this.book = book;
     }
 
     public Integer getId() {

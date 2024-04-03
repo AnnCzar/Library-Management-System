@@ -16,11 +16,11 @@ public class GetBookDto {
     private String publisher;
     private Integer publishYear;
     private Integer numberCopy;
-    private List<LoanEntity> loan;
     private BookDetailsEntity bookDetails;
     private List<ReviewEntity> review;
 
-    public GetBookDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy, List<LoanEntity> loan, BookDetailsEntity bookDetails, List<ReviewEntity> review) {
+    //To GetLoanDto
+    public GetBookDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -28,10 +28,20 @@ public class GetBookDto {
         this.publisher = publisher;
         this.publishYear = publishYear;
         this.numberCopy = numberCopy;
-        this.loan = loan;
-        this.bookDetails = bookDetails;
-        this.review = review;
+
     }
+    // To getBookDto    // add review
+//    public GetBookDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy,  BookDetailsEntity bookDetails) {
+//        this.id = id;
+//        this.isbn = isbn;
+//        this.title = title;
+//        this.author = author;
+//        this.publisher = publisher;
+//        this.publishYear = publishYear;
+//        this.numberCopy = numberCopy;
+//        this.bookDetails = bookDetails;
+////        this.review = review;
+//    }
 
     public Integer getId() {
         return id;
@@ -89,27 +99,4 @@ public class GetBookDto {
         this.numberCopy = numberCopy;
     }
 
-    public List<LoanEntity> getLoan() {
-        return loan;
-    }
-
-    public void setLoan(List<LoanEntity> loan) {
-        this.loan = loan;
-    }
-
-    public BookDetailsEntity getBookDetails() {
-        return bookDetails;
-    }
-
-    public void setBookDetails(BookDetailsEntity bookDetails) {
-        this.bookDetails = bookDetails;
-    }
-
-    public List<ReviewEntity> getReview() {
-        return review;
-    }
-
-    public void setReview(List<ReviewEntity> review) {
-        this.review = review;
-    }
 }

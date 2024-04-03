@@ -7,13 +7,13 @@ import java.util.Date;
 
 public class CreateLoanResponseDto {
     private Integer loanid;
-    private BookEntity book;
-    private UserEntity user;
+    private Integer book;
+    private Integer user;
     private Date loanDate;
     private Date loanEndDate;
     private Date returnDate;
 
-    public CreateLoanResponseDto(Integer loanid, BookEntity book, UserEntity user, Date loanDate, Date loanEndDate, Date returnDate) {
+    public CreateLoanResponseDto(Integer loanid, Integer book, Integer user, Date loanDate, Date loanEndDate, Date returnDate) {
         this.loanid = loanid;
         this.book = book;
         this.user = user;
@@ -30,19 +30,19 @@ public class CreateLoanResponseDto {
         this.loanid = loanid;
     }
 
-    public BookEntity getBook() {
+    public Integer getBook() {
         return book;
     }
 
-    public void setBook(BookEntity book) {
+    public void setBook(Integer book) {
         this.book = book;
     }
 
-    public UserEntity getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 

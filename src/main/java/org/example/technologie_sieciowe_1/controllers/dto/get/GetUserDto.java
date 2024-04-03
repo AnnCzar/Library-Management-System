@@ -7,26 +7,21 @@ import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 
 import java.util.List;
+import java.util.stream.Collector;
 
 public class GetUserDto {
     private Integer id;
-//    private String userName;
-//    private String password;
-//    private String role;
+    private String userName;
     private String email;
     private String fullUserName;
-    private List<LoanEntity> rental;
-    private List<ReviewEntity> review;
+//    private List<LoanEntity> loans;   // add method which get info about user and their loans and reviews
+//    private List<ReviewEntity> reviews;
 
-    public GetUserDto(Integer id, String email, String fullUserName, List<LoanEntity> rental, List<ReviewEntity> review) {
+    public GetUserDto(Integer id, String userName, String email, String fullUserName) {
         this.id = id;
-//        this.userName = userName;
-//        this.password = password;
-//        this.role = role;
+        this.userName = userName;
         this.email = email;
         this.fullUserName = fullUserName;
-        this.rental = rental;
-        this.review = review;
     }
 
     public Integer getId() {
@@ -37,30 +32,13 @@ public class GetUserDto {
         this.id = id;
     }
 
-//    public String getUserName() {
-//        return userName;
-//    }
-//
-//    public void setUserName(String userName) {
-//        this.userName = userName;
-//    }
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public String getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(String role) {
-//        this.role = role;
-//    }
+    public String getUserName() {
+        return userName;
+    }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
     public String getEmail() {
         return email;
     }
@@ -77,19 +55,4 @@ public class GetUserDto {
         this.fullUserName = fullUserName;
     }
 
-    public List<LoanEntity> getRental() {
-        return rental;
-    }
-
-    public void setRental(List<LoanEntity> rental) {
-        this.rental = rental;
-    }
-
-    public List<ReviewEntity> getReview() {
-        return review;
-    }
-
-    public void setReview(List<ReviewEntity> review) {
-        this.review = review;
-    }
 }

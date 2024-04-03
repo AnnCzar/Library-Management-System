@@ -14,10 +14,10 @@ public class CreateReviewResponseDto {
     private String comment;
     private Date reviewDate;
 
-    public CreateReviewResponseDto(Integer reviewID, BookEntity book, UserEntity user, Integer rate, String comment, Date reviewDate) {
+    public CreateReviewResponseDto(Integer reviewID, Integer rate, String comment, Date reviewDate) {
         ReviewID = reviewID;
-        this.book = book;
-        this.user = user;
+//        this.book = book;
+//        this.user = user;
         this.rate = rate;
         this.comment = comment;
         this.reviewDate = reviewDate;

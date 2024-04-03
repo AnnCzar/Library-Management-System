@@ -9,14 +9,14 @@ public class GetBookDetailsDto {
     private String genre;
     private String summary;
     private  String CoverImageURL;
-    private BookEntity book;
+    private BookEntity book;   // change to GetBookDto
 
-    public GetBookDetailsDto(Integer id, String genre, String summary, String coverImageURL, BookEntity book) {
+    public GetBookDetailsDto(Integer id, String genre, String summary, String coverImageURL) {
         this.id = id;
         this.genre = genre;
         this.summary = summary;
-        CoverImageURL = coverImageURL;
-        this.book = book;
+        this.CoverImageURL = coverImageURL;
+//        this.book = book;
     }
 
     public Integer getId() {

@@ -1,11 +1,18 @@
 package org.example.technologie_sieciowe_1.controllers.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.example.technologie_sieciowe_1.commonTypes.UserRole;
 
 public class RegisterDto {
+    @NotBlank
     private String password;
+    @NotBlank
     private String username;
+
     private UserRole role;
+    @NotBlank(message = "Email is required")
+    @Email
     private String email;
 
     public RegisterDto(String password, String username, UserRole role, String email) {

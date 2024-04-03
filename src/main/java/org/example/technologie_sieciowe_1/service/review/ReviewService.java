@@ -1,4 +1,4 @@
-package org.example.technologie_sieciowe_1.service;
+package org.example.technologie_sieciowe_1.service.review;
 
 import org.example.technologie_sieciowe_1.controllers.dto.create.CreateReviewDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetReviewDto;
@@ -7,6 +7,7 @@ import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.BookRepository;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.ReviewRepository;
+import org.example.technologie_sieciowe_1.service.review.exceptions.ReviewNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,7 @@ public class ReviewService {
         var reviews =  reviewRepository.findAll();
         return StreamSupport.stream(reviews.spliterator(), false)
                 .map(review -> new GetReviewDto(review.getReviewID(),
-                        review.getBook(),
-                        review.getUser(),
+
                         review.getRate(),
                         review.getComment(),
                         review.getReviewDate()))
@@ -35,11 +35,10 @@ public class ReviewService {
     }
 
     public GetReviewDto getById(Integer id){
-        var reviewEntity =  reviewRepository.findById(id).orElse(null);
+        var reviewEntity =  reviewRepository.findById(id).orElseThrow(() -> ReviewNotFoundException.create(id));
         assert reviewEntity != null;
         return new GetReviewDto(reviewEntity.getReviewID(),
-                reviewEntity.getBook(),
-                reviewEntity.getUser(),
+
                 reviewEntity.getRate(),
                 reviewEntity.getComment(),
                 reviewEntity.getReviewDate());
@@ -53,11 +52,8 @@ public class ReviewService {
         reviewEntity.setComment(review.getComment());
         reviewEntity.setReviewDate(review.getReviewDate());
 
-
         var newReview =  reviewRepository.save(reviewEntity);
         return new CreateReviewResponseDto(newReview.getReviewID(),
-                newReview.getBook(),
-                newReview.getUser(),
                 newReview.getRate(),
                 newReview.getComment(),
                 newReview.getReviewDate()
@@ -65,12 +61,8 @@ public class ReviewService {
     }
     public void delete(Integer id) {
         if(!reviewRepository.existsById(id)){
-            throw new RuntimeException();
+            throw ReviewNotFoundException.create(id);
         }
         reviewRepository.deleteById(id);
     }
-
-
-
-
 }

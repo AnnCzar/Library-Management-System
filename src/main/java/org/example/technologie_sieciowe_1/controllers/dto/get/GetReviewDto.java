@@ -9,16 +9,16 @@ import java.util.Date;
 public class GetReviewDto {
 
     private Integer ReviewID;
-    private BookEntity book;
-    private UserEntity user;
+//    private BookEntity book;
+//    private UserEntity user;
     private Integer rate;
     private String comment;
     private Date reviewDate;
 
-    public GetReviewDto(Integer reviewID, BookEntity book, UserEntity user, Integer rate, String comment, Date reviewDate) {
+    public GetReviewDto(Integer reviewID, Integer rate, String comment, Date reviewDate) {
         ReviewID = reviewID;
-        this.book = book;
-        this.user = user;
+//        this.book = book;
+//        this.user = user;
         this.rate = rate;
         this.comment = comment;
         this.reviewDate = reviewDate;
@@ -32,21 +32,6 @@ public class GetReviewDto {
         ReviewID = reviewID;
     }
 
-    public BookEntity getBook() {
-        return book;
-    }
-
-    public void setBook(BookEntity book) {
-        this.book = book;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
 
     public Integer getRate() {
         return rate;

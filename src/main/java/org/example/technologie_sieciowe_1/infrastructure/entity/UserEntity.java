@@ -1,5 +1,6 @@
 package org.example.technologie_sieciowe_1.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -11,22 +12,29 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
+    @Basic
+    @Column(name = "userName")
+    private String userName;
 
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
+
     @Basic
     @Column(name = "fullUserName")
     private String fullUserName;
 
-    @OneToMany(mappedBy = "user")
-    private List<LoanEntity> rental;
 
-    @OneToMany(mappedBy = "user")
-    private List<ReviewEntity> review;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    @JsonIgnore
+    private List<LoanEntity> loans;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private AuthEntity auth;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    @JsonIgnore
+    private List<ReviewEntity> reviews;
+
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+//    private AuthEntity auth;
 
 
     public Integer getId() {
@@ -37,6 +45,13 @@ public class UserEntity {
         this.id = id;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getEmail() {
         return email;
@@ -54,19 +69,19 @@ public class UserEntity {
         this.fullUserName = fullUserName;
     }
 
-    public List<LoanEntity> getRental() {
-        return rental;
+    public List<LoanEntity> getLoans() {
+        return loans;
     }
 
-    public void setRental(List<LoanEntity> rental) {
-        this.rental = rental;
+    public void setLoans(List<LoanEntity> loans) {
+        this.loans = loans;
     }
 
-    public List<ReviewEntity> getReview() {
-        return review;
+    public List<ReviewEntity> getReviews() {
+        return reviews;
     }
 
-    public void setReview(List<ReviewEntity> review) {
-        this.review = review;
+    public void setReviews(List<ReviewEntity> reviews) {
+        this.reviews = reviews;
     }
 }
