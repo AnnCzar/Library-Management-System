@@ -25,13 +25,19 @@ public class BookController {
         this.bookService = bookService;
     }
 
+
+
+
+
     @GetMapping("/getAll")
+    @Secured("ROLE_LIBRARIAN")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<GetBookDto> getAll() {
         return bookService.getAll();
     }
 
     @GetMapping("/getById")
+    @Secured("ROLE_LIBRARIAN")
     @ResponseStatus(code = HttpStatus.OK)
     public GetBookDto getById( Integer id) {
         return bookService.getById(id);

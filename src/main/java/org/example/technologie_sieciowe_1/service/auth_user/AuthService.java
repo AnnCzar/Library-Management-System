@@ -14,6 +14,8 @@ import org.example.technologie_sieciowe_1.service.auth_user.exceptions.Incorrect
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserAlreadyExistsException;
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -65,8 +67,8 @@ public class AuthService {
         if (!passwordEncoder.matches(logindto.getPassword(), authEntity.getPassword())) {
             throw IncorrectPasswordException.create();
         }
-        String token = jwtService.generateToken(authEntity);
-
+        var token = jwtService.generateToken(authEntity);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new LoginResponseDto(token);
 
     }

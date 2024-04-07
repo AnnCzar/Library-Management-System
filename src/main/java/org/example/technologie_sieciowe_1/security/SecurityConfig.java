@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity
+//@EnableMethodSecurity
+@EnableWebSecurity
 public class SecurityConfig {
     private final JWTTokenFilter JWTTokenFilter;
     @Autowired
@@ -27,14 +29,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(JWTTokenFilter, UsernamePasswordAuthenticationFilter.class)
-//                .authorizeHttpRequests(
-//                        authorizationManagerRequestMatcherRegistry ->
-//                                authorizationManagerRequestMatcherRegistry
-//                                        .requestMatchers("/login").permitAll()
-////                                        .requestMatchers("/user/add", "/user/delete/**").permitAll()
-//                                        .requestMatchers("/user").hasRole("LIBRARIAN")
-//                                        .anyRequest().authenticated()
-//                )
+
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();

@@ -41,7 +41,7 @@ public class AuthController {
 
     }
     @DeleteMapping("/delete")
-    @Secured("ROLE_LIBRARIAN")
+//    @Secured("ROLE_LIBRARIAN")
     public ResponseEntity<Void> delete(Integer id) {
        authService.delete(id);
         return ResponseEntity.noContent().build();

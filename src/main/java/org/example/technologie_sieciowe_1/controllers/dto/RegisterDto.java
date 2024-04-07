@@ -5,14 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import org.example.technologie_sieciowe_1.commonTypes.UserRole;
 
 public class RegisterDto {
-    @NotBlank
+    @NotBlank(message = "Password cannot be blank")
     private String password;
-    @NotBlank
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
     private UserRole role;
     @NotBlank(message = "Email is required")
-    @Email
+    @Email(message = "Invalid email format")
     private String email;
 
     public RegisterDto(String password, String username, UserRole role, String email) {
