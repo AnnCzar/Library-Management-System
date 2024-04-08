@@ -27,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('LIBRARIAN')")
-//    @Secured("ROLE_LIBRARIAN")
+
     public ResponseEntity<RegisterResponseDto> register(@Validated @RequestBody RegisterDto requsetbody){
         RegisterResponseDto dto = authService.register(requsetbody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);

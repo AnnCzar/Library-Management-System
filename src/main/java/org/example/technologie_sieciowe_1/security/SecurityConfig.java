@@ -16,8 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-//@EnableMethodSecurity
-@EnableWebSecurity
+@EnableMethodSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
     private final JWTTokenFilter JWTTokenFilter;
     @Autowired
@@ -28,10 +28,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(JWTTokenFilter, UsernamePasswordAuthenticationFilter.class)
-
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(JWTTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

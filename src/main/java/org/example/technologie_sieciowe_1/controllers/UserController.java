@@ -31,14 +31,16 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @GetMapping("/getInfo")
-    @PreAuthorize("permitAll()")
-//    @Secured("READER")
+//    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<GetUserDto> getInfo() {
-//        String username = principal.getName();
+    public ResponseEntity<GetUserDto> getInfo(Principal principal) {
+        String username = principal.getName();
 //        System.out.println(username);
-        GetUserDto getUserDto = userService.getInfo();
+
+        GetUserDto getUserDto = userService.getInfo(username);
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
 //        return userService.getInfo();
     }

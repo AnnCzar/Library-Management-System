@@ -49,14 +49,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public GetUserDto getById(Integer id){
+    public GetUserDto getById(Integer id) {
         var user = userRepository.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
         return new GetUserDto(user.getId(),
                 user.getUserName(),
                 user.getEmail(),
                 user.getFullUserName());
     }
-
 
 
     public CreateUserResponseDto add(CreateUserDto user) {
@@ -72,28 +71,48 @@ public class UserService {
                 newUser.getEmail(),
                 newUser.getFullUserName());
     }
+
     public void delete(Integer id) {
-        if(!userRepository.existsById(id)){
+        if (!userRepository.existsById(id)) {
             throw UserNotFoundException.create(id);
         }
         userRepository.deleteById(id);
     }
-    public GetUserDto getInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.getPrincipal() != null) {
-            String username = authentication.getName(); // Nazwa użytkownika
-            var auth = authRepository.findByUserName(username).orElseThrow(() -> UserNotFoundException.create(username));
-            var user = auth.getUser();
-            return new GetUserDto(auth.getId(),
-                    auth.getUserName(),
-                    user.getEmail(),
-                    user.getFullUserName());
-        } else {
-            // Obsłuż przypadki, gdy uwierzytelnienie lub główny obiekt jest nullem
-            throw  UserNotFoundException.create("ania");
-        }
+    //    public GetUserDto getInfo() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.getPrincipal() != null) {
+//            String username = authentication.getName(); // Nazwa użytkownika
+//            var auth = authRepository.findByUserName(username).orElseThrow(() -> UserNotFoundException.create(username));
+//            var user = auth.getUser();
+//            return new GetUserDto(auth.getId(),
+//                    auth.getUserName(),
+//                    user.getEmail(),
+//                    user.getFullUserName());
+//        } else {
+//            // Obsłuż przypadki, gdy uwierzytelnienie lub główny obiekt jest nullem
+//            throw UserNotFoundException.create("ania");
+//        }
+//    }
+    public GetUserDto getInfo(String username) {
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+//    if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.getPrincipal() != null) {
+//        String username = authentication.getName(); // Nazwa użytkownika
+        var auth = authRepository.findByUserName(username).orElseThrow(() -> UserNotFoundException.create(username));
+        var user = auth.getUser();
+        return new GetUserDto(auth.getId(),
+                auth.getUserName(),
+                user.getEmail(),
+                user.getFullUserName());
+//    } else {
+//        // Obsłuż przypadki, gdy uwierzytelnienie lub główny obiekt jest nullem
+//        throw UserNotFoundException.create("ania");
+//    }
+
     }
+}
 
 
 //    public GetUserDto getInfo() {
@@ -138,7 +157,7 @@ public class UserService {
 //            throw  UserNotFoundException.create("dziala");
 //        }
 //    }
-    }
+
 
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String username = authentication.getName(); // Pobranie nazwy użytkownika

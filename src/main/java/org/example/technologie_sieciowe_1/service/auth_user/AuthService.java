@@ -14,6 +14,7 @@ import org.example.technologie_sieciowe_1.service.auth_user.exceptions.Incorrect
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserAlreadyExistsException;
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ import java.util.Optional;
 public class AuthService {
     private final AuthRepository authRepository;
     private final UserRepository userRepository;
+//    private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -68,7 +70,7 @@ public class AuthService {
             throw IncorrectPasswordException.create();
         }
         var token = jwtService.generateToken(authEntity);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new LoginResponseDto(token);
 
     }
