@@ -9,7 +9,7 @@ public class GetBookDetailsDto {
     private String genre;
     private String summary;
     private  String CoverImageURL;
-    private BookEntity book;   // change to GetBookDto
+    private GetBookDto book;   // change to GetBookDto
 
     public GetBookDetailsDto(Integer id, String genre, String summary, String coverImageURL) {
         this.id = id;
@@ -51,11 +51,11 @@ public class GetBookDetailsDto {
         CoverImageURL = coverImageURL;
     }
 
-    public BookEntity getBook() {
+    public GetBookDto getBook() {
         return book;
     }
 
-    public void setBook(BookEntity book) {
+    public void setBook(GetBookDto book) {
         this.book = book;
     }
 }

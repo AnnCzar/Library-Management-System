@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 public class UserNotFoundException extends RuntimeException{
-    private UserNotFoundException(String message){
+    public UserNotFoundException(String message){
         super(message);
     }
 

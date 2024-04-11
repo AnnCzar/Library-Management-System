@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book")
+@PostAuthorize("isAuthenticated()")
 public class BookController {
     private final BookService bookService;
 
@@ -25,36 +28,35 @@ public class BookController {
         this.bookService = bookService;
     }
 
-
-
-
-
     @GetMapping("/getAll")
-    @Secured("ROLE_LIBRARIAN")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<GetBookDto> getAll() {
         return bookService.getAll();
     }
 
     @GetMapping("/getById")
-    @Secured("ROLE_LIBRARIAN")
     @ResponseStatus(code = HttpStatus.OK)
     public GetBookDto getById( Integer id) {
         return bookService.getById(id);
     }
 
     @PostMapping("/add")
-    @Secured("ROLE_LIBRARIAN")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody CreateBookResponseDto add(@RequestBody @Validated  CreateBookDto book) {
         return bookService.add(book);
     }
 
     @DeleteMapping("/delete")
-    @Secured("ROLE_LIBRARIAN")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<Void> delete(Integer id) {
         bookService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/getByTitle")
+    @ResponseStatus(code = HttpStatus.OK)
+    public GetBookDto getByTitle(@RequestParam String title) {
+        return bookService.getByTitle(title);
     }
 
 

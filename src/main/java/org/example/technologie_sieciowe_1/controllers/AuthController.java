@@ -24,10 +24,8 @@ public class AuthController {
         this.authService = authService;
     }
 
-
     @PostMapping("/register")
     @PreAuthorize("hasRole('LIBRARIAN')")
-
     public ResponseEntity<RegisterResponseDto> register(@Validated @RequestBody RegisterDto requsetbody){
         RegisterResponseDto dto = authService.register(requsetbody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
@@ -41,11 +39,9 @@ public class AuthController {
 
     }
     @DeleteMapping("/delete")
-//    @Secured("ROLE_LIBRARIAN")
+    @Secured("LIBRARIAN")
     public ResponseEntity<Void> delete(Integer id) {
        authService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

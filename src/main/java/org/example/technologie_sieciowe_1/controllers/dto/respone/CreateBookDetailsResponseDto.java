@@ -1,5 +1,7 @@
 package org.example.technologie_sieciowe_1.controllers.dto.respone;
 
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDetailsDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 
 public class CreateBookDetailsResponseDto {
@@ -7,13 +9,12 @@ public class CreateBookDetailsResponseDto {
     private String genre;
     private String summary;
     private  String CoverImageURL;
-    private BookEntity book; // change to GetBookDto
-    public CreateBookDetailsResponseDto(Integer id, String genre, String summary, String coverImageURL) {
-        this.id = id;
+    private Integer book; // change to GetBookDto
+    public CreateBookDetailsResponseDto( String genre, String summary, String coverImageURL, Integer book) {
         this.genre = genre;
         this.summary = summary;
         this.CoverImageURL = coverImageURL;
-//        this.book = book;
+        this.book = book;
     }
 
     public Integer getId() {
@@ -48,11 +49,11 @@ public class CreateBookDetailsResponseDto {
         CoverImageURL = coverImageURL;
     }
 
-    public BookEntity getBook() {
+    public Integer getBook() {
         return book;
     }
 
-    public void setBook(BookEntity book) {
+    public void setBook(Integer book) {
         this.book = book;
     }
 }

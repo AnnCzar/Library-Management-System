@@ -4,6 +4,9 @@ import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntit
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BookDetailsRepository extends CrudRepository<BookDetailsEntity, Integer> {
+    Optional<BookDetailsEntity> findByBookId(Integer id);
 }

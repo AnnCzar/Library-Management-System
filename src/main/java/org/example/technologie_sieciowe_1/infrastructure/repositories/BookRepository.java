@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends CrudRepository<BookEntity, Integer> {
+    BookEntity findByTitle(String title);
 }

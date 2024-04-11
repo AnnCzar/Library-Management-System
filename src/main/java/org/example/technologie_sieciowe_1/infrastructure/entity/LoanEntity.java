@@ -79,4 +79,6 @@ public class LoanEntity {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
+
+
 }

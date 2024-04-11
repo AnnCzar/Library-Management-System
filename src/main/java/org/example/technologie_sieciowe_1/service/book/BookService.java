@@ -38,6 +38,14 @@ public class BookService{
         var bookEntity = bookRepository.findById(id).orElseThrow(BookNotFoundException::create);
         return mapBook(bookEntity);
     }
+    public GetBookDto getByTitle(String title) {
+        BookEntity bookEntity = bookRepository.findByTitle(title);
+        if (bookEntity != null) {
+            return mapBook(bookEntity);
+        } else {
+            throw BookNotFoundException.create(title);
+        }
+    }
 
     public CreateBookResponseDto add(CreateBookDto book) {
         var bookEntity = new BookEntity();

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,11 +21,9 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/user")
-//@Secured("ROLE_LIBRARIAN")
+@PostAuthorize("isAuthenticated()")
 public class UserController {
     private final UserService userService;
-
-
 
     @Autowired
     public UserController(UserService userService) {
@@ -33,34 +32,30 @@ public class UserController {
 
 
     @GetMapping("/getInfo")
-//    @PreAuthorize("permitAll()")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<GetUserDto> getInfo(Principal principal) {
         String username = principal.getName();
-//        System.out.println(username);
-
         GetUserDto getUserDto = userService.getInfo(username);
         return new ResponseEntity<>(getUserDto, HttpStatus.OK);
-//        return userService.getInfo();
     }
 
-
-
     @GetMapping("/getAll")
-//    @Secured()
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.OK)
     public @ResponseBody Iterable<GetUserDto> getAll(){
         return userService.getAll();
     }
 
     @GetMapping("/getById")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.OK)
     public @ResponseBody GetUserDto getById(Integer id){
         return userService.getById(id);
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.CREATED)
     public @ResponseBody CreateUserResponseDto add(@RequestBody CreateUserDto userEntity){
 
@@ -68,8 +63,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("permitAll()")
-//    @Secured("ROLE_LIBRARIAN")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<Void> delete (Integer id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
