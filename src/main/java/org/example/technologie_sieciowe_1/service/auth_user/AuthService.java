@@ -14,9 +14,6 @@ import org.example.technologie_sieciowe_1.service.auth_user.exceptions.Incorrect
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserAlreadyExistsException;
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +23,6 @@ import java.util.Optional;
 public class AuthService {
     private final AuthRepository authRepository;
     private final UserRepository userRepository;
-//    private final AuthenticationManager authenticationManager;
-
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
@@ -40,7 +35,7 @@ public class AuthService {
     }
     @Transactional
     public RegisterResponseDto register(RegisterDto registerDto){
-        Optional<AuthEntity> existingAuth = authRepository.findByUserName(registerDto.getUsername());
+        Optional<AuthEntity> existingAuth = authRepository.findByUsername(registerDto.getUsername());
 
         if (existingAuth.isPresent()) {
             throw UserAlreadyExistsException.create(registerDto.getUsername());
@@ -48,6 +43,7 @@ public class AuthService {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(registerDto.getEmail());
+        userEntity.setUserName(registerDto.getUsername());
         userRepository.save(userEntity);
 
         AuthEntity authEntity = new AuthEntity();
@@ -61,16 +57,14 @@ public class AuthService {
 
     }
 
-
     public LoginResponseDto login(LoginDto logindto){
 
-        AuthEntity authEntity = authRepository.findByUserName(logindto.getUserName()).orElseThrow(() -> UserNotFoundException.create(logindto.getUserName()));
+        AuthEntity authEntity = authRepository.findByUsername(logindto.getUserName()).orElseThrow(() -> UserNotFoundException.create(logindto.getUserName()));
 
         if (!passwordEncoder.matches(logindto.getPassword(), authEntity.getPassword())) {
             throw IncorrectPasswordException.create();
         }
         var token = jwtService.generateToken(authEntity);
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return new LoginResponseDto(token);
 
     }

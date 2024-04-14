@@ -1,22 +1,16 @@
 package org.example.technologie_sieciowe_1.controllers.dto.get;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
-
-import java.util.List;
-import java.util.stream.Collector;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 public class GetUserDto {
+    @Schema(description = "User ID", example = "1")
     private Integer id;
+    @Schema(description = "User's username", example = "john_doe")
     private String userName;
-    private String email;
-    private String fullUserName;
-//    private List<LoanEntity> loans;   // add method which get info about user and their loans and reviews
-//    private List<ReviewEntity> reviews;
+    @Schema(description = "User's email", example = "john@example.com")
 
+    private String email;
+    @Schema(description = "User's full name", example = "John Doe")
+    private String fullUserName;
     public GetUserDto(Integer id, String userName, String email, String fullUserName) {
         this.id = id;
         this.userName = userName;

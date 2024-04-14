@@ -1,22 +1,26 @@
 package org.example.technologie_sieciowe_1.controllers.dto.get;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 
 public class GetBookDetailsDto {
-
+    @Schema(description = "The ID of the book details", example = "32")
     private Integer id;
+    @Schema(description = "The genre of the book", example = "fantasy")
     private String genre;
+    @Schema(description = "A summary of the book", example =  "Worlds collide in this captivating novel that blends elements of fantasy with science fiction. ")
     private String summary;
+    @Schema(description = "The URL of the cover image of the book")
     private  String CoverImageURL;
-    private GetBookDto book;   // change to GetBookDto
+//    @Schema(description = "The ID of the book", example = "23")
+//    private GetBookDto book;
 
     public GetBookDetailsDto(Integer id, String genre, String summary, String coverImageURL) {
         this.id = id;
         this.genre = genre;
         this.summary = summary;
         this.CoverImageURL = coverImageURL;
-//        this.book = book;
     }
 
     public Integer getId() {
@@ -51,11 +55,4 @@ public class GetBookDetailsDto {
         CoverImageURL = coverImageURL;
     }
 
-    public GetBookDto getBook() {
-        return book;
-    }
-
-    public void setBook(GetBookDto book) {
-        this.book = book;
-    }
 }

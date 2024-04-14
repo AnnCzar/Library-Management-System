@@ -1,25 +1,23 @@
 package org.example.technologie_sieciowe_1.controllers.dto.get;
 
-import jakarta.persistence.*;
-import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
-
-import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class GetBookDto {
-
+    @Schema(description = "ID", example = "12")
     private Integer id;
+    @Schema(description = "ISBN", example = "1234567890123")
     private String isbn;
+    @Schema(description = "Title", example = "Title of the book")
     private String title;
+    @Schema(description = "Author", example = "John Doe")
     private String author;
+    @Schema(description = "Publisher", example = "Publisher Name")
     private String publisher;
+    @Schema(description = "Date of publication", example = "2024")
     private Integer publishYear;
+    @Schema(description = "Number of copies", example = "5")
     private Integer numberCopy;
-    private BookDetailsEntity bookDetails;
-    private List<ReviewEntity> review;
 
-    //To GetLoanDto
     public GetBookDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy) {
         this.id = id;
         this.isbn = isbn;
@@ -28,20 +26,7 @@ public class GetBookDto {
         this.publisher = publisher;
         this.publishYear = publishYear;
         this.numberCopy = numberCopy;
-
     }
-    // To getBookDto    // add review
-//    public GetBookDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy,  BookDetailsEntity bookDetails) {
-//        this.id = id;
-//        this.isbn = isbn;
-//        this.title = title;
-//        this.author = author;
-//        this.publisher = publisher;
-//        this.publishYear = publishYear;
-//        this.numberCopy = numberCopy;
-//        this.bookDetails = bookDetails;
-////        this.review = review;
-//    }
 
     public Integer getId() {
         return id;

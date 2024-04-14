@@ -1,16 +1,15 @@
 package org.example.technologie_sieciowe_1.controllers.dto.create;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
-
-import java.util.List;
 
 public class CreateUserDto {
-
+    @Schema(description = "User's username", example = "john_doe")
     private String userName;
     @NotNull
+    @Schema(description = "User's email", example = "john@example.com", required = true)
     private String email;
+    @Schema(description = "User's full name", example = "John Doe")
     private String fullUserName;
 
 

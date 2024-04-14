@@ -1,9 +1,11 @@
 package org.example.technologie_sieciowe_1.service.loan;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.example.technologie_sieciowe_1.commonTypes.UserRole;
 import org.example.technologie_sieciowe_1.controllers.dto.create.CreateLoanDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetLoanDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetLoansPageDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetUserDto;
 import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateLoanResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
@@ -19,17 +21,14 @@ import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserNotFo
 import org.example.technologie_sieciowe_1.service.loan.exceptions.InsufficientBooksAmount;
 import org.example.technologie_sieciowe_1.service.loan.exceptions.LoanNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class LoanService {
@@ -45,23 +44,30 @@ public class LoanService {
         this.userRepository = userRepository;
         this.authRepository = authRepository;
     }
+    @Operation(summary = "Get all loans")
+    public GetLoansPageDto getAll(String username, int page, int size) {
 
-    public List<GetLoanDto> getAll(String username) {
-        List<LoanEntity> loans;
-        var auth = authRepository.findByUserName(username).orElseThrow(() -> UserNotFoundException.create(username));
+        Pageable pageable = PageRequest.of(page, size);
+        var auth = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
         var role = auth.getRole();
-        var userId = auth.getId(); 
+        var userId = auth.getId();
+        Page<LoanEntity> loans;
         if (role == UserRole.ROLE_LIBRARIAN) {
-            loans = (List<LoanEntity>) loanRepository.findAll();
+            loans = loanRepository.findAll(pageable);
         } else {
-            loans = loanRepository.findByUserId(userId);
+            loans = loanRepository.findByUserId(userId, pageable);
         }
-        return StreamSupport.stream(loans.spliterator(), false).map(this::mapLoan).collect(Collectors.toList());
+        List<GetLoanDto> loansDto = loans.getContent().stream().map(this::mapLoan).toList();
+        return new GetLoansPageDto(
+                loansDto, loans.getNumber(),
+                loans.getTotalElements(),
+                loans.getTotalPages(),
+                loans.hasNext());
     }
-
+    @Operation(summary = "Get loan by ID")
     public GetLoanDto getById( Integer id, String username){
         
-        var auth = authRepository.findByUserName(username).orElseThrow(() -> UserNotFoundException.create(username));
+        var auth = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
         var role = auth.getRole();
 
         LoanEntity loanEntity = null;
@@ -83,21 +89,14 @@ public class LoanService {
             }
         }
     }
+    @Operation(summary = "Add a loan")
+    public CreateLoanResponseDto add(CreateLoanDto loan) {
 
-    public CreateLoanResponseDto add(CreateLoanDto loan, String username) {
 
-        var auth = authRepository.findByUserName(username)
-                .orElseThrow(() -> UserNotFoundException.create(username));
-
-        if (auth.getRole() != UserRole.ROLE_LIBRARIAN && !Objects.equals(auth.getId(), loan.getUser())) {
-            throw new UserNotFoundException("User not found or unauthorized to perform this action.");
-        }
         UserEntity user = userRepository.findById(loan.getUser()).orElseThrow(() -> UserNotFoundException.create(loan.getUser()));
         BookEntity book = bookRepository.findById(loan.getBook()).orElseThrow(BookNotFoundException::create);
 
 
-
-        // creating new loan
         LoanEntity loanEntity = new LoanEntity();
         loanEntity.setLoanDate(new Date());
         loanEntity.setLoanEndDate(loan.getLoanEndDate());
@@ -105,7 +104,6 @@ public class LoanService {
         loanEntity.setUser(user);
         loanEntity.setReturnDate(loan.getReturnDate());
 
-        // saving in the database
         LoanEntity newLoan = loanRepository.save(loanEntity);
 
         decreaseBookCount(book);
@@ -118,33 +116,24 @@ public class LoanService {
                 newLoan.getLoanEndDate(),
                 newLoan.getReturnDate());
     }
-
+    @Operation(summary = "Delete a loan")
     public void delete(Integer id) {
         if (!loanRepository.existsById(id)){
             throw LoanNotFoundException.create(id);
         }
         loanRepository.deleteById(id);
     }
-
-    public void updateReturnDate(Integer loanId, String username) {
+    @Operation(summary = "Update return date for a loan")
+    public void updateReturnDate(Integer loanId) {
 
         var loanEntity = loanRepository.findById(loanId)
                 .orElseThrow(() -> LoanNotFoundException.create(loanId));
+        loanEntity.setReturnDate(new Date());
 
-        var auth = authRepository.findByUserName(username)
-                .orElseThrow(() -> UserNotFoundException.create(username));
-
-
-        if (auth.getRole() == UserRole.ROLE_LIBRARIAN || Objects.equals(loanEntity.getUser().getId(), auth.getId())) {
-            loanEntity.setReturnDate(new Date());
-
-            loanRepository.save(loanEntity);
-            updateBookQuantity(loanEntity.getBook().getId());
-        } else {
-            throw LoanNotFoundException.create(loanId);
-        }
+        loanRepository.save(loanEntity);
+        updateBookQuantity(loanEntity.getBook().getId());
     }
-
+    @Operation(summary = "Update books' quantity")
     private void updateBookQuantity(Integer bookId) {
         var bookEntity = bookRepository.findById(bookId)
                 .orElseThrow(() -> BookNotFoundException.create());
@@ -152,6 +141,7 @@ public class LoanService {
         bookEntity.setNumberCopy(bookEntity.getNumberCopy() + 1);
         bookRepository.save(bookEntity);
     }
+    @Operation(summary = "Decrease books' count")
     private void decreaseBookCount(BookEntity book) {
         if (book.getNumberCopy() <= 0) {
             throw InsufficientBooksAmount.create();
@@ -184,27 +174,4 @@ public class LoanService {
                 loanEntity.getLoanEndDate(),
                 loanEntity.getReturnDate());
     }
-
 }
-
-
-// ewentulana poprawa
-//private LoanEntity saveLoan(CreateLoanDto loan, UserEntity user, BookEntity book) {
-//    LoanEntity loanEntity = new LoanEntity();
-//    loanEntity.setLoanDate(new Date());
-//    loanEntity.setLoanEndDate(loan.getLoanEndDate());
-//    loanEntity.setBook(book);
-//    loanEntity.setUser(user);
-//    loanEntity.setReturnDate(loan.getReturnDate());
-//    return loanRepository.save(loanEntity);
-//}
-//
-//private CreateLoanResponseDto createLoanResponse(LoanEntity newLoan) {
-//    return new CreateLoanResponseDto(
-//            newLoan.getLoanid(),
-//            newLoan.getBook().getId(),
-//            newLoan.getUser().getId(),
-//            newLoan.getLoanDate(),
-//            newLoan.getLoanEndDate(),
-//            newLoan.getReturnDate());
-//}

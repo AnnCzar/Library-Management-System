@@ -1,10 +1,9 @@
 package org.example.technologie_sieciowe_1.service.bookDetails;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.example.technologie_sieciowe_1.controllers.dto.create.CreateBookDetailsDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDetailsDto;
-import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDto;
 import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateBookDetailsResponseDto;
-import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateUserResponseDto;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
 import org.example.technologie_sieciowe_1.infrastructure.repositories.BookDetailsRepository;
@@ -23,14 +22,14 @@ public class BookDetailsService {
 
     private final BookDetailsRepository bookDetailsRepository;
     private final BookRepository bookRepository;
-//    private  final GetBookDto getBookDto;
+
     @Autowired
     public BookDetailsService(BookDetailsRepository bookDetailsRepository, BookRepository bookRepository) {
         this.bookDetailsRepository = bookDetailsRepository;
         this.bookRepository = bookRepository;
-//        this.getBookDto = getBookDto;
     }
 
+    @Operation(summary = "Get all book details", description = "Retrieve a list of all book details")
     public List<GetBookDetailsDto> getAll() {
 
         var bookDetails = bookDetailsRepository.findAll();
@@ -42,7 +41,7 @@ public class BookDetailsService {
                         bookDetails1.getCoverImageURL()))
                 .collect(Collectors.toList());
     }
-
+    @Operation(summary = "Get book details by ID", description = "Retrieve book details by its ID")
     public GetBookDetailsDto getById(Integer id){
         var bookDetailsEntity=  bookDetailsRepository.findById(id).orElseThrow(() -> BookDetailsNotFoundException.create(id));
 
@@ -51,7 +50,7 @@ public class BookDetailsService {
                 bookDetailsEntity.getSummary(),
                 bookDetailsEntity.getCoverImageURL());
     }
-
+    @Operation(summary = "Add book details", description = "Add new book details")
     public CreateBookDetailsResponseDto add(CreateBookDetailsDto bookDetails) {
         BookEntity book = bookRepository.findById(bookDetails.getBook()).orElseThrow(BookNotFoundException::create);
 
@@ -66,17 +65,15 @@ public class BookDetailsService {
                 newBookDetails.getSummary(),
                 newBookDetails.getCoverImageURL(),
                 newBookDetails.getBook().getId());
-
-
     }
-
+    @Operation(summary = "Delete book details", description = "Delete book details by its ID")
     public void delete(Integer id) {
         if (!bookDetailsRepository.existsById(id)){
             throw BookDetailsNotFoundException.create(id);
         }
         bookDetailsRepository.deleteById(id);
     }
-
+    @Operation(summary = "Get book details by Book ID", description = "Retrieve book details by the associated Book's ID")
     public GetBookDetailsDto getByBookId(Integer id) {
         var bookDetailsEntity=  bookDetailsRepository.findByBookId(id).orElseThrow(() -> BookDetailsNotFoundException.create(id));
 

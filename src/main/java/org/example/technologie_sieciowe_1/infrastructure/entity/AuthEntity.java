@@ -12,7 +12,7 @@ public class AuthEntity {
     private Integer id;
     @Basic
     @Column(name = "userName", unique = true, nullable = false)
-    private String userName;
+    private String username;
     @Basic
     @Column(name = "password", nullable = false)
     private String password;
@@ -28,7 +28,7 @@ public class AuthEntity {
 
     public AuthEntity(Integer id, String userName, String password, UserRole role, UserEntity user) {
         this.id = id;
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.role = role;
         this.user = user;
@@ -46,11 +46,11 @@ public class AuthEntity {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getPassword() {

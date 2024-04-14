@@ -1,5 +1,6 @@
 package org.example.technologie_sieciowe_1.controllers.dto.respone;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
 import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
@@ -7,12 +8,19 @@ import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
 import java.util.List;
 
 public class CreateBookResponseDto {
+    @Schema(description = "Book ID", example = "1")
     private Integer id;
+    @Schema(description = "ISBN of the book", example = "978-3-16-148410-0")
     private String isbn;
+    @Schema(description = "Title of the book", example = "To Kill a Mockingbird")
     private String title;
+    @Schema(description = "Author of the book", example = "Harper Lee")
     private String author;
+    @Schema(description = "Publisher of the book", example = "J. B. Lippincott & Co.")
     private String publisher;
+    @Schema(description = "Publish year of the book", example = "1960")
     private Integer publishYear;
+    @Schema(description = "Number of copies available for the book", example = "5")
     private Integer numberCopy;
 
     public CreateBookResponseDto(Integer id, String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy) {

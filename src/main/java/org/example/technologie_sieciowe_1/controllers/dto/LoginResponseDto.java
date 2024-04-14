@@ -1,6 +1,9 @@
 package org.example.technologie_sieciowe_1.controllers.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class LoginResponseDto {
+    @Schema(description = "JWT Token")
     private String token;
 
     public LoginResponseDto(String token) {

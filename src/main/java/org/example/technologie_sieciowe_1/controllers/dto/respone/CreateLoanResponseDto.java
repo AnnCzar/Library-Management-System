@@ -1,16 +1,29 @@
 package org.example.technologie_sieciowe_1.controllers.dto.respone;
 
-import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetBookDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetUserDto;
 
 import java.util.Date;
 
+@Schema(description = "DTO for response when creating a loan")
 public class CreateLoanResponseDto {
+    @Schema(description = "ID of the loan", example = "789")
     private Integer loanid;
+    @Schema(description = "ID of the book", example = "123")
     private Integer book;
+
+    @Schema(description = "ID of the user", example = "123")
     private Integer user;
+
+    @Schema(description = "Date of loan", example = "2024-04-14")
     private Date loanDate;
+
+    @Schema(description = "End date of loan", example = "2024-04-30")
     private Date loanEndDate;
+
+    @Schema(description = "Return date of loan", example = "2024-05-15")
     private Date returnDate;
 
     public CreateLoanResponseDto(Integer loanid, Integer book, Integer user, Date loanDate, Date loanEndDate, Date returnDate) {

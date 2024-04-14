@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface AuthRepository extends CrudRepository<AuthEntity, Integer> {
 
-    Optional<AuthEntity> findByUserName(String userName);
+    Optional<AuthEntity> findByUsername(String userName);
 }

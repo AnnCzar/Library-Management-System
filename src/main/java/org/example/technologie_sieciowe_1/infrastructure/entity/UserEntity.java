@@ -14,7 +14,7 @@ public class UserEntity {
     private Integer id;
     @Basic
     @Column(name = "userName")
-    private String userName;
+    private String username;
 
     @Basic
     @Column(name = "email", nullable = false)
@@ -46,11 +46,11 @@ public class UserEntity {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getEmail() {

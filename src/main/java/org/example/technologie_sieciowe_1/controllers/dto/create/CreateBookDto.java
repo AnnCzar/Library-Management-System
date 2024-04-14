@@ -1,27 +1,24 @@
 package org.example.technologie_sieciowe_1.controllers.dto.create;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import org.example.technologie_sieciowe_1.infrastructure.entity.BookDetailsEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.LoanEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.ReviewEntity;
-
-import java.util.List;
 
 public class CreateBookDto {
-
+    @Schema(description = "ISBN", example = "1234567890123")
     private String isbn;
     @NotNull
+    @Schema(description = "Title", example = "Title of the book")
     private String title;
     @NotNull
+    @Schema(description = "Author", example = "John Doe")
     private String author;
-
+    @Schema(description = "Publisher", example = "Publisher Name")
     private String publisher;
+    @Schema(description = "Date of publication", example = "2024")
     private Integer publishYear;
     @NotNull
+    @Schema(description = "Number of copies", example = "5")
     private Integer numberCopy;
-//    private List<LoanEntity> loans;
-//    private BookDetailsEntity bookDetails;
-//    private List<ReviewEntity> reviews;
 
     public CreateBookDto(String isbn, String title, String author, String publisher, Integer publishYear, Integer numberCopy) {
         this.isbn = isbn;

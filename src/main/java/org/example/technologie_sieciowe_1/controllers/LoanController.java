@@ -1,7 +1,13 @@
 package org.example.technologie_sieciowe_1.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.technologie_sieciowe_1.controllers.dto.create.CreateLoanDto;
 import org.example.technologie_sieciowe_1.controllers.dto.get.GetLoanDto;
+import org.example.technologie_sieciowe_1.controllers.dto.get.GetLoansPageDto;
 import org.example.technologie_sieciowe_1.controllers.dto.respone.CreateLoanResponseDto;
 import org.example.technologie_sieciowe_1.service.loan.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +26,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/loan")
 @PostAuthorize("isAuthenticated()")
+@Tag(name = "Loan")
 public class LoanController {
     private final LoanService loanService;
 
@@ -28,54 +35,69 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-//    @GetMapping("/getAll")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public Iterable<GetLoanDto> getAll(){
-//        return loanService.getAll();
-//    }
+
     @GetMapping("/getAll")
+    @Operation(summary = "Get all loans")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<GetLoanDto> getAll(Principal principal){
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "The request succeeded"),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
+    public GetLoansPageDto getAll(Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ){
         String username = principal.getName();
-        return loanService.getAll(username);
+        return loanService.getAll(username, page, size);
     }
 
     @GetMapping("/getById")
+    @Operation(summary = "Get loan by ID")
     @ResponseStatus(code = HttpStatus.OK)
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "The request succeeded"),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Loan not found", content = @Content)
+    })
     public GetLoanDto getById(Integer id ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Nazwa użytkownika
-//        String username = principal.getName();
+        String username = authentication.getName();
         return loanService.getById(id, username);
     }
 
     @PostMapping("/add")
-//    @Secured("ROLE_LIBRARIAN")
-//    @PreAuthorize("hasRole('LIBRARIAN')")
+    @Operation(summary = "Add a loan")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.CREATED)
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "201", description = "Loan added"),
+            @ApiResponse(responseCode = "409", description = "Book not found or no books available", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     public @ResponseBody CreateLoanResponseDto add(@RequestBody @Validated CreateLoanDto loanEntity){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Nazwa użytkownika
-        return loanService.add(loanEntity, username);
+        return loanService.add(loanEntity);
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Delete a loan")
     @PreAuthorize("hasRole('LIBRARIAN')")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Removed"),
+            @ApiResponse(responseCode = "404", description = "Loan not found", content = @Content)
+    })
     public ResponseEntity<Void> delete(Integer id) {
 
         loanService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/return")
-    @PreAuthorize("hasRole('LIBRARIAN') or #loanDto.username == authentication.name")
+    @PutMapping("/returnBook")
+    @Operation(summary = "Update return date for a loan")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.OK)
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "The request succeeded"),
+            @ApiResponse(responseCode = "409", description = "Book not found", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Loan not found", content = @Content)
+    })
     public ResponseEntity<Void> updateReturnDate(@RequestParam Integer loanId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Nazwa użytkownika
-        loanService.updateReturnDate(loanId, username);
+        loanService.updateReturnDate(loanId);
         return ResponseEntity.ok().build();
     }
-
-
-
 }

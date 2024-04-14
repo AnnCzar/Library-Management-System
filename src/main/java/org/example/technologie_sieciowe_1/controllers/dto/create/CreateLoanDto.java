@@ -1,25 +1,28 @@
 package org.example.technologie_sieciowe_1.controllers.dto.create;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
-
 import java.util.Date;
 
+@Schema(description = "DTO for creating a loan")
 public class CreateLoanDto {
 
     @NotNull
+    @Schema(description = "ID of the book", example = "123")
     private Integer book;
     @NotNull
+    @Schema(description = "ID of the user", example = "456")
     private Integer user;
     @NotNull
+    @Schema(description = "Date of loan", example = "2024-04-14")
     private Date loanDate;
     @NotNull
+    @Schema(description = "End date of loan", example = "2024-04-30")
     private Date loanEndDate;
+    @Schema(description = "Return date of loan", example = "2024-05-15")
     private Date returnDate;
 
-    public CreateLoanDto(Integer book, Integer user, Date loanDate, Date loanEndDate, Date returnDate) {
+    public CreateLoanDto(Integer book, Integer user, Date loanEndDate, Date returnDate) {
         this.book = book;
         this.user = user;
         this.loanDate = new Date(System.currentTimeMillis());

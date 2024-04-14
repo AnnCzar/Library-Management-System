@@ -1,23 +1,26 @@
 package org.example.technologie_sieciowe_1.controllers.dto.respone;
 
-import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
 
 public class CreateReviewResponseDto {
-
+    @Schema(description = "ID of the review", example = "1")
     private Integer ReviewID;
-    private BookEntity book;
-    private UserEntity user;
+    @Schema(description = "ID of the book", example = "1")
+    private Integer book;
+    @Schema(description = "ID of the user", example = "1")
+    private Integer user;
+    @Schema(description = "Rating", example = "4")
     private Integer rate;
+    @Schema(description = "Comment", example = "Very interesting book")
     private String comment;
+    @Schema(description = "Review date", example = "2024-04-14T12:00:00Z")
     private Date reviewDate;
 
-    public CreateReviewResponseDto(Integer reviewID, Integer rate, String comment, Date reviewDate) {
+    public CreateReviewResponseDto(Integer reviewID, Integer book, Integer user, Integer rate, String comment, Date reviewDate) {
         ReviewID = reviewID;
-//        this.book = book;
-//        this.user = user;
+        this.book = book;
+        this.user = user;
         this.rate = rate;
         this.comment = comment;
         this.reviewDate = reviewDate;
@@ -31,19 +34,19 @@ public class CreateReviewResponseDto {
         ReviewID = reviewID;
     }
 
-    public BookEntity getBook() {
+    public Integer getBook() {
         return book;
     }
 
-    public void setBook(BookEntity book) {
+    public void setBook(Integer book) {
         this.book = book;
     }
 
-    public UserEntity getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 

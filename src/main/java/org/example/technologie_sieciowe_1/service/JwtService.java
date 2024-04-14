@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private long tokenLifetime = 1000 * 60 * 24; // 24 min
+    private long tokenLifetime = 1000 * 60 * 30; // 30 min
     @Value("${jwt.token.key}")
     private String jwtSigningKey;
     public String generateToken(AuthEntity userDetail){
@@ -33,9 +33,7 @@ public class JwtService {
             return !isTokenExpired(token);
         }catch (Exception e){
             return false;
-
         }
-
     }
 
     public String extractUsername(String token){
@@ -57,7 +55,6 @@ public class JwtService {
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
-
     }
 
     private Claims extractAllClaims(String token){
@@ -68,8 +65,6 @@ public class JwtService {
                 .getPayload();
     }
 
-
-
     private String generateToken(Map<String, Object> extraClaims, AuthEntity userDetails){
         extraClaims.put("role", userDetails.getRole());
         return Jwts.builder()
@@ -79,7 +74,6 @@ public class JwtService {
                 .expiration(new Date(System.currentTimeMillis() + tokenLifetime))
                 .signWith(getSigningKey())
                 .compact();
-
     }
 
     private SecretKey getSigningKey() {
@@ -87,5 +81,4 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
 }

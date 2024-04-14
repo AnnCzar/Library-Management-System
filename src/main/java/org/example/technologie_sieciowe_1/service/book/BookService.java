@@ -34,7 +34,6 @@ public class BookService{
     }
 
     public GetBookDto getById(Integer id){
-
         var bookEntity = bookRepository.findById(id).orElseThrow(BookNotFoundException::create);
         return mapBook(bookEntity);
     }
@@ -66,6 +65,23 @@ public class BookService{
                 newBook.getPublishYear(),
                 newBook.getNumberCopy());
     }
+    public CreateBookResponseDto update(CreateBookDto book) {
+        String bookTitle = book.getTitle();
+        var newBook =  bookRepository.findByTitle(bookTitle);
+        newBook.setNumberCopy(book.getNumberCopy());
+        newBook.setPublisher(book.getPublisher());
+        newBook.setIsbn(book.getIsbn());
+        newBook.setAuthor(book.getAuthor());
+        newBook.setPublishYear(book.getPublishYear());
+        return new CreateBookResponseDto(
+                newBook.getId(),
+                newBook.getIsbn(),
+                newBook.getAuthor(),
+                newBook.getTitle(),
+                newBook.getPublisher(),
+                newBook.getPublishYear(),
+                newBook.getNumberCopy());
+    }
 
     public void delete(Integer id) {
         if (!bookRepository.existsById(id)){
@@ -74,15 +90,8 @@ public class BookService{
         bookRepository.deleteById(id);
     }
 
-
     public GetBookDto mapBook(BookEntity bookEntity){
-//        GetReviewDto reviewDto = new GetReviewDto() // add review to getting book
-//        GetBookDetailsDto getBookDetailsDto = new GetBookDetailsDto(
-//                bookEntity.getBookDetails().getId(),
-//                bookEntity.getBookDetails().getGenre(),
-//                bookEntity.getBookDetails().getSummary(),
-//                bookEntity.getBookDetails().getCoverImageURL()
-//        );
+
         return new GetBookDto(bookEntity.getId(),
                 bookEntity.getIsbn(),
                 bookEntity.getTitle(),
@@ -90,14 +99,5 @@ public class BookService{
                 bookEntity.getPublisher(),
                 bookEntity.getPublishYear(),
                 bookEntity.getNumberCopy());
-
-//        return new GetBookDto(bookEntity.getId(),
-//                bookEntity.getIsbn(),
-//                bookEntity.getTitle(),
-//                bookEntity.getAuthor(),
-//                bookEntity.getPublisher(),
-//                bookEntity.getPublishYear(),
-//                bookEntity.getNumberCopy(),
-//                bookEntity.getBookDetails());
     }
 }

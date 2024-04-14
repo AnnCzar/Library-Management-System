@@ -1,18 +1,26 @@
 package org.example.technologie_sieciowe_1.controllers.dto.get;
 
-import jakarta.persistence.*;
-import org.example.technologie_sieciowe_1.infrastructure.entity.BookEntity;
-import org.example.technologie_sieciowe_1.infrastructure.entity.UserEntity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Date;
 
+@Schema(description = "DTO for getting loan details")
 public class GetLoanDto {
-
+    @Schema(description = "ID of the loan", example = "789")
     private Integer loanid;
+    @Schema(description = "Book details")
     private GetBookDto book;
+
+    @Schema(description = "User details")
     private GetUserDto user;
+
+    @Schema(description = "Date of loan", example = "2024-04-14")
     private Date loanDate;
+
+    @Schema(description = "End date of loan", example = "2024-04-30")
     private Date loanEndDate;
+
+    @Schema(description = "Return date of loan", example = "2024-05-15")
     private Date returnDate;
 
     public GetLoanDto(Integer loanid, GetBookDto book, GetUserDto user, Date loanDate, Date loanEndDate, Date returnDate) {
