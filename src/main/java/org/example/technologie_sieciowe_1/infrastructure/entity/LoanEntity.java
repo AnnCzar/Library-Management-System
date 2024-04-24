@@ -1,6 +1,5 @@
 package org.example.technologie_sieciowe_1.infrastructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -10,7 +9,7 @@ import java.util.Date;
 public class LoanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer loanid;
+    private Integer loanId;
 
     @ManyToOne(fetch = FetchType.LAZY)
 
@@ -32,12 +31,12 @@ public class LoanEntity {
     @Column(name = "returnDate")
     private Date returnDate;
 
-    public Integer getLoanid() {
-        return loanid;
+    public Integer getLoanId() {
+        return loanId;
     }
 
-    public void setLoanid(Integer loanid) {
-        this.loanid = loanid;
+    public void setLoanId(Integer loanid) {
+        this.loanId = loanid;
     }
 
     public BookEntity getBook() {

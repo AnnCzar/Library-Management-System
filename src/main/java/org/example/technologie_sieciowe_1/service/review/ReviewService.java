@@ -37,29 +37,15 @@ public class ReviewService {
         this.loanRepository = loanRepository;
     }
     public List<GetReviewDto> getAll(String username) {
-        var reviews =  reviewRepository.findAll();
-        List<GetReviewDto> rev = null;
+
         var auth = authRepository.findByUsername(username)
                 .orElseThrow(() -> UserNotFoundException.create(username));
         var role = auth.getRole();
 
-        if (role == UserRole.ROLE_LIBRARIAN) {
-            rev =StreamSupport.stream(reviews.spliterator(), false)
-                    .map(review -> new GetReviewDto(review.getReviewID(),
-                            review.getBook(),
-                            review.getRate(),
-                            review.getComment(),
-                            review.getReviewDate()))
-                    .toList();
-
-        } else if (role == UserRole.ROLE_READER){
-            rev = StreamSupport.stream(reviews.spliterator(), false)
-                    .map(review -> new GetReviewDto(review.getReviewID(),
-                            review.getBook(),
-                            review.getRate(),
-                            review.getComment(),
-                            review.getReviewDate()))
-                    .collect(Collectors.toList());
+        Iterable<ReviewEntity> reviews= reviewRepository.findAll();
+        List<GetReviewDto> rev = new ArrayList<>();
+        for (ReviewEntity review : reviews) {
+            rev.add(mapToGetReviewDto(review, role));
         }
         return rev;
     }
@@ -70,6 +56,8 @@ public class ReviewService {
         var auth = authRepository.findByUsername(username)
                 .orElseThrow(() -> UserNotFoundException.create(username));
         var role = auth.getRole();
+
+
         if (role == UserRole.ROLE_LIBRARIAN) {
             review = new GetReviewDto(reviewEntity.getReviewID(),
                     reviewEntity.getUser(),
@@ -185,5 +173,21 @@ public class ReviewService {
         }
         return rev;
     }
-    
+    private GetReviewDto mapToGetReviewDto(ReviewEntity reviewEntity, UserRole role) {
+        if (role == UserRole.ROLE_LIBRARIAN) {
+            return new GetReviewDto(reviewEntity.getReviewID(),
+                    reviewEntity.getUser(),
+                    reviewEntity.getBook(),
+                    reviewEntity.getRate(),
+                    reviewEntity.getComment(),
+                    reviewEntity.getReviewDate());
+        } else {
+            return new GetReviewDto(reviewEntity.getReviewID(),
+                    reviewEntity.getBook(),
+                    reviewEntity.getRate(),
+                    reviewEntity.getComment(),
+                    reviewEntity.getReviewDate());
+        }
+    }
+
 }

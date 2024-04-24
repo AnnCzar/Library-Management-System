@@ -79,7 +79,7 @@ public class LoanService {
             List<Integer> loanIds = new ArrayList<>();
 
             for (LoanEntity loan : loans) {  // to get user loanids
-                loanIds.add(loan.getLoanid());
+                loanIds.add(loan.getLoanId());
             }
             if (loanIds.contains(id)){          // to check if user has te enter  loan id
                 return mapLoan(loanEntity);
@@ -109,7 +109,7 @@ public class LoanService {
         decreaseBookCount(book);
         bookRepository.save(book);
 
-        return new CreateLoanResponseDto(newLoan.getLoanid(),
+        return new CreateLoanResponseDto(newLoan.getLoanId(),
                 newLoan.getBook().getId(),
                 newLoan.getUser().getId(),
                 newLoan.getLoanDate(),
@@ -167,7 +167,7 @@ public class LoanService {
                 loanEntity.getBook().getPublishYear(),
                 loanEntity.getBook().getNumberCopy());
 
-        return new GetLoanDto(loanEntity.getLoanid(),
+        return new GetLoanDto(loanEntity.getLoanId(),
                 getBookDto,
                 getUserDto,
                 loanEntity.getLoanDate(),
