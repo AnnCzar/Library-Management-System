@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book")
-@PostAuthorize("isAuthenticated()")
+
 @Tag(name = "Book", description = "Endpoints for managing books")
 public class BookController {
     private final BookService bookService;
@@ -39,6 +39,7 @@ public class BookController {
     }
 
     @GetMapping("/getById")
+    @PostAuthorize("isAuthenticated()")
     @Operation(summary = "Get book by ID")
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses( value = {
@@ -50,6 +51,7 @@ public class BookController {
     }
 
     @PostMapping("/add")
+    @PostAuthorize("isAuthenticated()")
     @Operation(summary = "Add a new book")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -59,6 +61,7 @@ public class BookController {
     }
 
     @DeleteMapping("/delete")
+    @PostAuthorize("isAuthenticated()")
     @Operation(summary = "Delete a book by ID")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ApiResponses( value = {
@@ -82,6 +85,7 @@ public class BookController {
     }
 
     @PostMapping("/update")
+    @PostAuthorize("isAuthenticated()")
     @Operation(summary = "Update a book")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)

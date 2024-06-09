@@ -3,22 +3,22 @@ package org.example.technologie_sieciowe_1.controllers.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class LoginDto {
-    @Schema(description = "Username", example = "username")
-    private String userName;
+    @Schema(description = "username", example = "username")
+    private String username;
     @Schema(description = "Password", example = "password")
     private String password;
 
-    public LoginDto(String userName, String password) {
-        this.userName = userName;
+    public LoginDto(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getusername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

@@ -13,7 +13,7 @@ public class UserEntity {
     @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "userName")
+    @Column(name = "username")
     private String username;
 
     @Basic
@@ -21,8 +21,8 @@ public class UserEntity {
     private String email;
 
     @Basic
-    @Column(name = "fullUserName")
-    private String fullUserName;
+    @Column(name = "fullusername")
+    private String fullusername;
 
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -45,12 +45,12 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getUserName() {
+    public String getusername() {
         return username;
     }
 
-    public void setUserName(String userName) {
-        this.username = userName;
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -61,12 +61,12 @@ public class UserEntity {
         this.email = email;
     }
 
-    public String getFullUserName() {
-        return fullUserName;
+    public String getFullusername() {
+        return fullusername;
     }
 
-    public void setFullUserName(String fullUserName) {
-        this.fullUserName = fullUserName;
+    public void setFullusername(String fullusername) {
+        this.fullusername = fullusername;
     }
 
     public List<LoanEntity> getLoans() {

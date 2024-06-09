@@ -41,6 +41,7 @@ public class AuthController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+//    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     @Operation(summary = "Login")
     @SecurityRequirements

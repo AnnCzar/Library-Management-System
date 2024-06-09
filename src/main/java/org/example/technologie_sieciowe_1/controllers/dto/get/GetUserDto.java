@@ -5,17 +5,17 @@ public class GetUserDto {
     @Schema(description = "User ID", example = "1")
     private Integer id;
     @Schema(description = "User's username", example = "john_doe")
-    private String userName;
+    private String username;
     @Schema(description = "User's email", example = "john@example.com")
 
     private String email;
     @Schema(description = "User's full name", example = "John Doe")
-    private String fullUserName;
-    public GetUserDto(Integer id, String userName, String email, String fullUserName) {
+    private String fullusername;
+    public GetUserDto(Integer id, String username, String email, String fullusername) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.email = email;
-        this.fullUserName = fullUserName;
+        this.fullusername = fullusername;
     }
 
     public Integer getId() {
@@ -26,12 +26,12 @@ public class GetUserDto {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getusername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setusername(String username) {
+        this.username = username;
     }
     public String getEmail() {
         return email;
@@ -41,12 +41,12 @@ public class GetUserDto {
         this.email = email;
     }
 
-    public String getFullUserName() {
-        return fullUserName;
+    public String getFullusername() {
+        return fullusername;
     }
 
-    public void setFullUserName(String fullUserName) {
-        this.fullUserName = fullUserName;
+    public void setFullusername(String fullusername) {
+        this.fullusername = fullusername;
     }
 
 }

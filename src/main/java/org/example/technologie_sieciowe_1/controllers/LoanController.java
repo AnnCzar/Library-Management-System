@@ -20,12 +20,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/loan")
-@PostAuthorize("isAuthenticated()")
+//@PostAuthorize("isAuthenticated()")
 @Tag(name = "Loan")
 public class LoanController {
     private final LoanService loanService;
@@ -36,17 +38,27 @@ public class LoanController {
     }
 
 
-    @GetMapping("/getAll")
-    @Operation(summary = "Get all loans")
-    @ResponseStatus(code = HttpStatus.OK)
-    @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "The request succeeded"),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-    })
-    public GetLoansPageDto getAll(Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ){
-        String username = principal.getName();
-        return loanService.getAll(username, page, size);
+//    @GetMapping("/getAll")
+//    @Operation(summary = "Get all loans")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    @ApiResponses( value = {
+//            @ApiResponse(responseCode = "200", description = "The request succeeded"),
+//            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+//    })
+//    public GetLoansPageDto getAll(Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ){
+//        String username = principal.getName();
+//        return loanService.getAll(username);
+//    }
+@GetMapping("/getAll")
+public GetLoansPageDto getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
     }
+    String username = authentication.getName();
+    return loanService.getAll(username, page =0, size =100);
+}
+
 
     @GetMapping("/getById")
     @Operation(summary = "Get loan by ID")

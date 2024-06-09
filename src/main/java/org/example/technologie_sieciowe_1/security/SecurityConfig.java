@@ -25,13 +25,19 @@ public class SecurityConfig {
         this.JWTTokenFilter = JWTTokenFilter;
     }
     @Bean
+
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/loan/**").authenticated()
+                        .requestMatchers("/book/add").hasRole("LIBRARIAN")
+                        .anyRequest().permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(JWTTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(JWTTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean

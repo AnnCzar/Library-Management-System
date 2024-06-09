@@ -6,7 +6,7 @@ import org.example.technologie_sieciowe_1.commonTypes.UserRole;
 public class RegisterResponseDto {
     @Schema(description = "User ID", example = "123")
     private Integer userId;
-    @Schema(description = "Username", example = "john_doe")
+    @Schema(description = "username", example = "john_doe")
     private String username;
     @Schema(description = "User role", example = "ROLE_READER")
     private UserRole role;
@@ -17,11 +17,11 @@ public class RegisterResponseDto {
         this.role = role;
     }
 
-    public String getUsername() {
+    public String getusername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setusername(String username) {
         this.username = username;
     }
 

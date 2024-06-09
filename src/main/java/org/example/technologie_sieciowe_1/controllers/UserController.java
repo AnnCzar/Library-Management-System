@@ -115,6 +115,5 @@ public class UserController {
 
     }
 }
-// add method which get info about user and their loans and reviews
 
 

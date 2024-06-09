@@ -9,7 +9,7 @@ public class RegisterDto {
     @NotBlank(message = "Password cannot be blank")
     @Schema(name = "password", example = "password")
     private String password;
-    @NotBlank(message = "Username cannot be blank")
+    @NotBlank(message = "username cannot be blank")
     @Schema(name = "username", example = "username")
     private String username;
     @Schema(name = "role", example = "ROLE_LIBRARIAN")
@@ -34,11 +34,11 @@ public class RegisterDto {
         this.password = password;
     }
 
-    public String getUsername() {
+    public String getusername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setusername(String username) {
         this.username = username;
     }
 

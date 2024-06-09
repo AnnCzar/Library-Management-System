@@ -66,7 +66,7 @@ public class LoanService {
     }
     @Operation(summary = "Get loan by ID")
     public GetLoanDto getById( Integer id, String username){
-        
+
         var auth = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
         var role = auth.getRole();
 
@@ -154,9 +154,9 @@ public class LoanService {
 
         GetUserDto getUserDto = new GetUserDto(
                 loanEntity.getUser().getId(),
-                loanEntity.getUser().getUserName(),
+                loanEntity.getUser().getusername(),
                 loanEntity.getUser().getEmail(),
-                loanEntity.getUser().getFullUserName());
+                loanEntity.getUser().getFullusername());
 
         GetBookDto getBookDto = new GetBookDto(
                 loanEntity.getBook().getId(),

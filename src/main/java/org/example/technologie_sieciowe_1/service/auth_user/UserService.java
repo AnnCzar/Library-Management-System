@@ -37,33 +37,33 @@ public class UserService {
         var users = userRepository.findAll();
         return StreamSupport.stream(users.spliterator(), false)
                 .map(user -> new GetUserDto(user.getId(),
-                        user.getUserName(),
+                        user.getusername(),
                         user.getEmail(),
-                        user.getFullUserName()))
+                        user.getFullusername()))
                 .collect(Collectors.toList());
     }
     @Operation(summary = "Get user by ID", description = "Retrieve user by ID")
     public GetUserDto getById(Integer id) {
         var user = userRepository.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
         return new GetUserDto(user.getId(),
-                user.getUserName(),
+                user.getusername(),
                 user.getEmail(),
-                user.getFullUserName());
+                user.getFullusername());
     }
 
     @Operation(summary = "Add new user", description = "Create a new user")
     public CreateUserResponseDto add(CreateUserDto user) {
 
         var userEntity = new UserEntity();
-        userEntity.setUserName(user.getUserName());
+        userEntity.setusername(user.getusername());
         userEntity.setEmail(user.getEmail());
-        userEntity.setFullUserName(user.getFullUserName());
+        userEntity.setFullusername(user.getFullusername());
 
         var newUser = userRepository.save(userEntity);
         return new CreateUserResponseDto(newUser.getId(),
-                newUser.getUserName(),
+                newUser.getusername(),
                 newUser.getEmail(),
-                newUser.getFullUserName());
+                newUser.getFullusername());
     }
     @Operation(summary = "Delete user", description = "Delete user by ID")
     public void delete(Integer id) {
@@ -78,9 +78,9 @@ public class UserService {
         var auth = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
         var user = auth.getUser();
         return new GetUserDto(auth.getId(),
-                auth.getUserName(),
+                auth.getusername(),
                 user.getEmail(),
-                user.getFullUserName());
+                user.getFullusername());
 
     }
     @Operation(summary = "Update user", description = "Update user by ID")
@@ -88,9 +88,9 @@ public class UserService {
         UserEntity user = userRepository.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
         AuthEntity auth = authRepository.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
         if(patchUserDto.getFullname() == null) {
-            user.setFullUserName(user.getFullUserName());
+            user.setFullusername(user.getFullusername());
         } else {
-            user.setFullUserName(patchUserDto.getFullname());
+            user.setFullusername(patchUserDto.getFullname());
         }
 
         if(patchUserDto.getEmail() == null) {
@@ -99,13 +99,13 @@ public class UserService {
             user.setEmail(patchUserDto.getEmail());
         }
 
-        user.setUserName(auth.getUserName());
+        user.setusername(auth.getusername());
 
         userRepository.save(user);
         return new PatchUserResponseDto(
                 user.getId(),
-                user.getUserName(),
-                user.getFullUserName(),
+                user.getusername(),
+                user.getFullusername(),
                 user.getEmail()
                 );
     }
@@ -118,9 +118,9 @@ public class UserService {
                 .orElseThrow(() -> UserNotFoundException.create(username));
 
         if (patchUserDto.getFullname() != null) {
-            user.setFullUserName(patchUserDto.getFullname());
+            user.setFullusername(patchUserDto.getFullname());
         }else {
-            user.setFullUserName(patchUserDto.getFullname());
+            user.setFullusername(patchUserDto.getFullname());
         }
         if (patchUserDto.getEmail() != null) {
             user.setEmail(patchUserDto.getEmail());
@@ -128,13 +128,13 @@ public class UserService {
             user.setEmail(patchUserDto.getEmail());
         }
 
-        user.setUserName(auth.getUserName());
+        user.setusername(auth.getusername());
         userRepository.save(user);
 
         return new PatchUserResponseDto(
                 user.getId(),
-                user.getFullUserName(),
-                user.getUserName(),
+                user.getFullusername(),
+                user.getusername(),
 
                 user.getEmail()
         );

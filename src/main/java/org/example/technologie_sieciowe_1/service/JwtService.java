@@ -69,7 +69,7 @@ public class JwtService {
         extraClaims.put("role", userDetails.getRole());
         return Jwts.builder()
                 .claims(extraClaims)
-                .subject(userDetails.getUserName())
+                .subject(userDetails.getusername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + tokenLifetime))
                 .signWith(getSigningKey())
