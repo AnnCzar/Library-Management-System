@@ -49,13 +49,15 @@ public class LoanService {
 
         Pageable pageable = PageRequest.of(page, size);
         var auth = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
+
         var role = auth.getRole();
-        var userId = auth.getId();
+        var userId = auth.getUser().getId();
         Page<LoanEntity> loans;
         if (role == UserRole.ROLE_LIBRARIAN) {
             loans = loanRepository.findAll(pageable);
         } else {
             loans = loanRepository.findByUserId(userId, pageable);
+            System.out.println(loans);
         }
         List<GetLoanDto> loansDto = loans.getContent().stream().map(this::mapLoan).toList();
         return new GetLoansPageDto(
@@ -149,6 +151,10 @@ public class LoanService {
         book.setNumberCopy(book.getNumberCopy() - 1);
         bookRepository.save(book);
     }
+    public List<GetLoanDto> getAllByUserId(Integer userId) {
+        List<LoanEntity> loans = loanRepository.findByUserId(userId);
+        return loans.stream().map(this::mapLoan).toList();
+    }
 
     public GetLoanDto mapLoan(LoanEntity loanEntity){
 
@@ -173,5 +179,9 @@ public class LoanService {
                 loanEntity.getLoanDate(),
                 loanEntity.getLoanEndDate(),
                 loanEntity.getReturnDate());
+    }
+
+    public boolean hasUserBorrowedBook(Integer userId, Integer bookId) {
+        return loanRepository.existsByUserIdAndBookId(userId, bookId);
     }
 }

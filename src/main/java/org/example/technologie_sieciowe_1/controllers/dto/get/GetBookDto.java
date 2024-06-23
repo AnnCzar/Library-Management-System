@@ -28,6 +28,9 @@ public class GetBookDto {
         this.numberCopy = numberCopy;
     }
 
+    public GetBookDto(Integer id, String title) {
+    }
+
     public Integer getId() {
         return id;
     }

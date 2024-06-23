@@ -59,13 +59,13 @@ public class ReviewController {
         return reviewService.getById(id, username);
     }
 
-    @GetMapping("/getByTitleOrBookId")
-    @Operation(summary = "Get reviews by title or book ID", description = "Retrieve reviews by title or book ID")
-    public @ResponseBody List<GetReviewDto> getByTitleOrBookId(@RequestParam Integer id, @RequestParam(required = false) Object object) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String  username = authentication.getName();
-        return reviewService.getByTitleOrBookId(id, username, object);
-    }
+//    @GetMapping("/getByTitleOrBookId")
+//    @Operation(summary = "Get reviews by title or book ID", description = "Retrieve reviews by title or book ID")
+//    public @ResponseBody List<GetReviewDto> getByTitleOrBookId(@RequestParam Integer id, @RequestParam(required = false) Object object) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String  username = authentication.getName();
+//        return reviewService.getByTitleOrBookId(id, username, object);
+//    }
 
     @PostMapping("/add")
     @Operation(summary = "Add a review", description = "Add a new review")

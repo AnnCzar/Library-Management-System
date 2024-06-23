@@ -31,6 +31,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/loan/**").authenticated()
                         .requestMatchers("/book/add").hasRole("LIBRARIAN")
+                        .requestMatchers("/book/delete/**").hasRole("LIBRARIAN")
+                        .requestMatchers("/book/getAll").permitAll()
+                        .requestMatchers("book/getById/**").permitAll()
+                        .requestMatchers("/user/getAllReaders").hasRole("LIBRARIAN")
+                        .requestMatchers("/updateUserInfo").hasRole("LIBRARIAN")
+                        .requestMatchers("/loan/returnBook").hasRole("LIBRARIAN")
+                        .requestMatchers("/auth/update").authenticated()
+                        .requestMatchers("/book/update").hasRole("LIBRARIAN")
+                        .requestMatchers("/bookDetails/update").hasRole("LIBRARIAN")
+                        .requestMatchers("/user/updateUserInfo").hasRole("LIBRARIAN")
+                        .requestMatchers("/review/**").authenticated()
+
+
+
                         .anyRequest().permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement ->

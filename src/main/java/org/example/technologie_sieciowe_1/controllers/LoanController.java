@@ -38,17 +38,6 @@ public class LoanController {
     }
 
 
-//    @GetMapping("/getAll")
-//    @Operation(summary = "Get all loans")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    @ApiResponses( value = {
-//            @ApiResponse(responseCode = "200", description = "The request succeeded"),
-//            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-//    })
-//    public GetLoansPageDto getAll(Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size ){
-//        String username = principal.getName();
-//        return loanService.getAll(username);
-//    }
 @GetMapping("/getAll")
 public GetLoansPageDto getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,7 +45,9 @@ public GetLoansPageDto getAll(@RequestParam(defaultValue = "0") int page, @Reque
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
     }
     String username = authentication.getName();
-    return loanService.getAll(username, page =0, size =100);
+
+    return loanService.getAll(username, 0, size);
+
 }
 
 
@@ -99,7 +90,7 @@ public GetLoansPageDto getAll(@RequestParam(defaultValue = "0") int page, @Reque
         loanService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/returnBook")
+    @PutMapping("/returnBook/{loanId}")
     @Operation(summary = "Update return date for a loan")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.OK)
@@ -108,8 +99,18 @@ public GetLoansPageDto getAll(@RequestParam(defaultValue = "0") int page, @Reque
             @ApiResponse(responseCode = "409", description = "Book not found", content = @Content),
             @ApiResponse(responseCode = "404", description = "Loan not found", content = @Content)
     })
-    public ResponseEntity<Void> updateReturnDate(@RequestParam Integer loanId) {
+    public ResponseEntity<Void> updateReturnDate(@PathVariable Integer loanId) {
         loanService.updateReturnDate(loanId);
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/getAllByUserId")
+    @Operation(summary = "Get all loans for a user")
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The request succeeded"),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
+    public List<GetLoanDto> getAllByUserId(@RequestParam Integer userId) {
+        return loanService.getAllByUserId(userId);
     }
 }

@@ -84,4 +84,6 @@ public class UserEntity {
     public void setReviews(List<ReviewEntity> reviews) {
         this.reviews = reviews;
     }
+
+
 }

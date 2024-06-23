@@ -68,13 +68,44 @@ public class AuthService {
         var token = jwtService.generateToken(authEntity);
         String role = authEntity.getRole().toString();
         System.out.println(role);
-        return new LoginResponseDto(token, role);
+        Integer id = authEntity.getUser().getId();
+        return new LoginResponseDto(token, role, id);
 
     }
 
+    @Transactional
     public void delete(Integer id) {
-        if (!authRepository.existsById(id)){
-            throw UserNotFoundException.create(id);
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> UserNotFoundException.create(id));
+
+        AuthEntity authEntity = (AuthEntity) authRepository.findByUser(userEntity)
+                .orElseThrow(() -> UserNotFoundException.create(id));
+
+        authRepository.delete(authEntity);
+        userRepository.delete(userEntity);
+    }
+    @Transactional
+    public RegisterResponseDto updateLoginAndPassword(String username, RegisterDto registerDto) {
+        AuthEntity authEntity = authRepository.findByUsername(username)
+                .orElseThrow(() -> UserNotFoundException.create(username));
+
+        // Aktualizacja username
+        if (registerDto.getusername() != null && !registerDto.getusername().isEmpty()) {
+            authEntity.setusername(registerDto.getusername());
         }
+        else{
+            authEntity.setusername(authEntity.getusername());
+        }
+
+        // Aktualizacja hasła
+        if (registerDto.getPassword() != null && !registerDto.getPassword().isEmpty()) {
+            authEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        }else{
+            authEntity.setPassword(authEntity.getusername());
+        }
+
+        authRepository.save(authEntity);
+
+        return new RegisterResponseDto(authEntity.getUser().getId(), authEntity.getusername(), authEntity.getRole());
     }
 }

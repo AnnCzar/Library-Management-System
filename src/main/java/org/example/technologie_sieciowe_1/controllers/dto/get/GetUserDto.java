@@ -18,6 +18,9 @@ public class GetUserDto {
         this.fullusername = fullusername;
     }
 
+    public GetUserDto(Integer id, String getusername) {
+    }
+
     public Integer getId() {
         return id;
     }

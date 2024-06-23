@@ -82,4 +82,19 @@ public class BookDetailsService {
                 bookDetailsEntity.getSummary(),
                 bookDetailsEntity.getCoverImageURL());
     }
+    public CreateBookDetailsResponseDto update(Integer id, CreateBookDetailsDto bookDetails) {
+        BookDetailsEntity bookDetailsEntity = bookDetailsRepository.findById(id)
+                .orElseThrow(() -> BookDetailsNotFoundException.create(id));
+
+        bookDetailsEntity.setGenre(bookDetails.getGenre());
+        bookDetailsEntity.setSummary(bookDetails.getSummary());
+        bookDetailsEntity.setCoverImageURL(bookDetails.getCoverImageURL());
+
+        BookDetailsEntity updatedBookDetailsEntity = bookDetailsRepository.save(bookDetailsEntity);
+        return new CreateBookDetailsResponseDto(
+                updatedBookDetailsEntity.getGenre(),
+                updatedBookDetailsEntity.getSummary(),
+                updatedBookDetailsEntity.getCoverImageURL(),
+                updatedBookDetailsEntity.getBook().getId());
+    }
 }

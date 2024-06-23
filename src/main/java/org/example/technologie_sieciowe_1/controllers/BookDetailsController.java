@@ -48,14 +48,14 @@ public class BookDetailsController {
         return bookDetailsService.getById(id);
     }
 
-    @GetMapping("/getByBookId")
+    @GetMapping("/getByBookId/{id}")
     @Operation(summary = "Get book details by Book ID", description = "Retrieve book details by the associated Book's ID")
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "The request succeeded"),
             @ApiResponse(responseCode = "404", description = "Book details not found", content = @Content)
     })
-    public GetBookDetailsDto getByBookId(Integer id) {
+    public GetBookDetailsDto getByBookId(@PathVariable Integer id) {
         return bookDetailsService.getByBookId(id);
     }
 
@@ -80,6 +80,17 @@ public class BookDetailsController {
     })
     public ResponseEntity<Void> delete(Integer id) {
         bookDetailsService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/update/{id}")
+    @Operation(summary = "Update book details", description = "Update existing book details")
+    @PreAuthorize("hasRole('LIBRARIAN')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Book details updated"),
+            @ApiResponse(responseCode = "404", description = "Book details not found", content = @Content)
+    })
+    public ResponseEntity<CreateBookDetailsResponseDto> update(@PathVariable Integer id, @RequestBody @Validated CreateBookDetailsDto bookDetails) {
+        CreateBookDetailsResponseDto updatedBookDetails = bookDetailsService.update(id, bookDetails);
         return ResponseEntity.noContent().build();
     }
 }

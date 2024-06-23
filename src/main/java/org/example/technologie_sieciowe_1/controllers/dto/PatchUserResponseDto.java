@@ -3,16 +3,16 @@ package org.example.technologie_sieciowe_1.controllers.dto;
 public class PatchUserResponseDto {
 
     private Integer id;
-    private String fullname;
+    private String fullusername;
 
     private  String username;
 
     private String email;
 
 
-    public PatchUserResponseDto(Integer id, String fullname, String username, String email) {
+    public PatchUserResponseDto(Integer id, String fullusername, String username, String email) {
         this.id = id;
-        this.fullname = fullname;
+        this.fullusername = fullusername;
         this.username = username;
         this.email = email;
     }
@@ -26,11 +26,11 @@ public class PatchUserResponseDto {
     }
 
     public String getFullname() {
-        return fullname;
+        return fullusername;
     }
 
     public void setFullname(String fullname) {
-        this.fullname = fullname;
+        this.fullusername = fullname;
     }
 
     public String getUsername() {

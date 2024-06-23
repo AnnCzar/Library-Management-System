@@ -14,4 +14,5 @@ public interface LoanRepository extends JpaRepository<LoanEntity, Integer> {
     List<LoanEntity> findByUserId(Integer userID);
     Page<LoanEntity> findByUserId (Integer userId, Pageable pageable);
 
+    boolean existsByUserIdAndBookId(Integer userId, Integer bookId);
 }

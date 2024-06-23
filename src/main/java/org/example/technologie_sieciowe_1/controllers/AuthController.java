@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,15 +58,39 @@ public class AuthController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
 
     }
-    @DeleteMapping("/delete")
-    @Operation(summary = "Delete user")
-    @PreAuthorize("hasRole('LIBRARIAN')")
-    @ApiResponses( value = {
-            @ApiResponse(responseCode = "204", description = "Removed"),
+//    @DeleteMapping("/delete")
+//    @Operation(summary = "Delete user")
+//    @PreAuthorize("hasRole('LIBRARIAN')")
+//    @ApiResponses( value = {
+//            @ApiResponse(responseCode = "204", description = "Removed"),
+//            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+//    })
+//    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+//       authService.delete(id);
+//        return ResponseEntity.noContent().build();
+//    }
+@DeleteMapping("/delete/{id}")
+@Operation(summary = "Delete user")
+@PreAuthorize("hasRole('LIBRARIAN')")
+@ApiResponses( value = {
+        @ApiResponse(responseCode = "204", description = "Removed"),
+        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+})
+public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    authService.delete(id);
+    return ResponseEntity.noContent().build();
+}
+    @PutMapping("/update")
+    @Operation(summary = "Update login and password")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updated"),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-       authService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<RegisterResponseDto> updateLoginAndPassword(
+            @Validated @RequestBody RegisterDto registerDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        RegisterResponseDto dto = authService.updateLoginAndPassword(username, registerDto);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

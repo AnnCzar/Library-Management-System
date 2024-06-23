@@ -5,16 +5,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.example.technologie_sieciowe_1.commonTypes.UserRole;
 
+import java.util.Collection;
+
 public class RegisterDto {
-    @NotBlank(message = "Password cannot be blank")
+
     @Schema(name = "password", example = "password")
     private String password;
-    @NotBlank(message = "username cannot be blank")
+
     @Schema(name = "username", example = "username")
     private String username;
     @Schema(name = "role", example = "ROLE_LIBRARIAN")
     private UserRole role;
-    @NotBlank(message = "Email is required")
+
     @Email(message = "Invalid email format")
     @Schema(name = "email", example = "email@email.com")
     private String email;
@@ -25,6 +27,7 @@ public class RegisterDto {
         this.role = role;
         this.email = email;
     }
+
 
     public String getPassword() {
         return password;
@@ -57,4 +60,6 @@ public class RegisterDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

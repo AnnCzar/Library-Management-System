@@ -65,23 +65,32 @@ public class BookService{
                 newBook.getPublishYear(),
                 newBook.getNumberCopy());
     }
-    public CreateBookResponseDto update(CreateBookDto book) {
-        String bookTitle = book.getTitle();
-        var newBook =  bookRepository.findByTitle(bookTitle);
-        newBook.setNumberCopy(book.getNumberCopy());
-        newBook.setPublisher(book.getPublisher());
-        newBook.setIsbn(book.getIsbn());
-        newBook.setAuthor(book.getAuthor());
-        newBook.setPublishYear(book.getPublishYear());
-        return new CreateBookResponseDto(
-                newBook.getId(),
-                newBook.getIsbn(),
-                newBook.getAuthor(),
-                newBook.getTitle(),
-                newBook.getPublisher(),
-                newBook.getPublishYear(),
-                newBook.getNumberCopy());
+public CreateBookResponseDto update(Integer id, CreateBookDto book) {
+    var bookOptional = bookRepository.findById(id);
+    var new_title = book.getTitle();
+
+    if (bookOptional.isEmpty()) {
+        throw BookNotFoundException.create(new_title);
     }
+
+    var newBook = bookOptional.get();
+    newBook.setNumberCopy(book.getNumberCopy());
+    newBook.setPublisher(book.getPublisher());
+    newBook.setIsbn(book.getIsbn());
+    newBook.setAuthor(book.getAuthor());
+    newBook.setPublishYear(book.getPublishYear());
+
+    var updatedBook = bookRepository.save(newBook);
+
+    return new CreateBookResponseDto(
+            updatedBook.getId(),
+            updatedBook.getIsbn(),
+            updatedBook.getAuthor(),
+            updatedBook.getTitle(),
+            updatedBook.getPublisher(),
+            updatedBook.getPublishYear(),
+            updatedBook.getNumberCopy());
+}
 
     public void delete(Integer id) {
         if (!bookRepository.existsById(id)){

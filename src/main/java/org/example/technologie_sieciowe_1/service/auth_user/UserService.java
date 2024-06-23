@@ -13,18 +13,18 @@ import org.example.technologie_sieciowe_1.infrastructure.repositories.AuthReposi
 import org.example.technologie_sieciowe_1.infrastructure.repositories.UserRepository;
 import org.example.technologie_sieciowe_1.service.auth_user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.example.technologie_sieciowe_1.commonTypes.UserRole;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
-
-
     @Autowired
     public UserService(UserRepository userRepository, AuthRepository authRepository) {
         this.userRepository = userRepository;
@@ -86,7 +86,7 @@ public class UserService {
     @Operation(summary = "Update user", description = "Update user by ID")
     public PatchUserResponseDto update (Integer id, PatchUserDto patchUserDto){
         UserEntity user = userRepository.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
-        AuthEntity auth = authRepository.findById(id).orElseThrow(() -> UserNotFoundException.create(id));
+        AuthEntity auth = (AuthEntity) authRepository.findByUserId(id).orElseThrow(() -> UserNotFoundException.create(id));
         if(patchUserDto.getFullname() == null) {
             user.setFullusername(user.getFullusername());
         } else {
@@ -139,6 +139,34 @@ public class UserService {
                 user.getEmail()
         );
     }
+    @Transactional(readOnly = true)
+    public List<GetUserDto> getAllReaders() {
+        List<AuthEntity> authEntities = (List<AuthEntity>) authRepository.findAll();
+
+        return authEntities.stream()
+                .filter(authEntity -> authEntity.getRole() == UserRole.ROLE_READER)
+                .map(authEntity -> {
+                    UserEntity userEntity = authEntity.getUser();
+                    return new GetUserDto(
+                            userEntity.getId(),
+                            authEntity.getusername(),
+                            userEntity.getEmail(),
+                            userEntity.getFullusername()
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+    @Operation(summary = "Get current user", description = "Retrieve the currently authenticated user information")
+    public GetUserDto getCurrentUser(String username) {
+        var auth = authRepository.findByUsername(username).orElseThrow(() -> UserNotFoundException.create(username));
+        var user = auth.getUser();
+        return new GetUserDto(auth.getId(),
+                auth.getusername(),
+                user.getEmail(),
+                user.getFullusername());
+    }
+
+
 }
 
 

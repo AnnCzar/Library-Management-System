@@ -34,8 +34,8 @@ public class BookEntity {
     @OneToOne(mappedBy = "book", fetch = FetchType.LAZY) // git
     private BookDetailsEntity bookDetails;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
-    private List<ReviewEntity> reviews;
+     @OneToMany(mappedBy = "book")
+     private List<ReviewEntity> reviews;
 
     public Integer getId() {
         return id;

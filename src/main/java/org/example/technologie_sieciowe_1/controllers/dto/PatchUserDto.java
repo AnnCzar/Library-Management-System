@@ -1,22 +1,22 @@
 package org.example.technologie_sieciowe_1.controllers.dto;
 
 public class PatchUserDto {
-    private String fullname;
+    private String fullusername;
 
 
     private String email;
 
-    public PatchUserDto(String fullname,String email) {
-        this.fullname = fullname;
+    public PatchUserDto(String fullusername,String email) {
+        this.fullusername = fullusername;
         this.email = email;
     }
 
     public String getFullname() {
-        return fullname;
+        return fullusername;
     }
 
     public void setFullname(String fullname) {
-        this.fullname = fullname;
+        this.fullusername = fullname;
     }
 
 

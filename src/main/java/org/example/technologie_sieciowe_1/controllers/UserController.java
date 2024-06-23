@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -89,7 +90,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/updateUserInfo/{id}")
     @Operation(summary = "Update user", description = "Update user by ID")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.OK)
@@ -97,8 +98,9 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User updated"),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    public @ResponseBody PatchUserResponseDto update(@RequestParam Integer id, @RequestBody PatchUserDto patchUserDto){
-        return userService.update(id, patchUserDto);
+    public @ResponseBody ResponseEntity<?> update(@PathVariable Integer id, @RequestBody PatchUserDto patchUserDto){
+        userService.update(id, patchUserDto);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("updateMyInfo")
@@ -113,6 +115,31 @@ public class UserController {
         String  username = authentication.getName();
         return userService.updateMyInfo(username, patchUserDto);
 
+    }
+    @GetMapping("/getAllReaders")
+    @Operation(summary = "Get all readers", description = "Retrieve all users with role READER")
+    @PreAuthorize("hasRole('LIBRARIAN')")
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The request succeeded")
+    })
+    public ResponseEntity<List<GetUserDto>> getAllReaders() {
+        List<GetUserDto> readers = userService.getAllReaders();
+        return new ResponseEntity<>(readers, HttpStatus.OK);
+    }
+    @GetMapping("/getCurrentUser")
+    @Operation(summary = "Get current user", description = "Retrieve the currently authenticated user information")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The request succeeded"),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
+    public ResponseEntity<GetUserDto> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        GetUserDto getUserDto = userService.getInfo(username);
+        return new ResponseEntity<>(getUserDto, HttpStatus.OK);
     }
 }
 

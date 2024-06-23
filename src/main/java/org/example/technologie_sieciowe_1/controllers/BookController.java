@@ -38,7 +38,7 @@ public class BookController {
         return bookService.getAll();
     }
 
-    @GetMapping("/getById")
+    @GetMapping("/getById/{id}")
     @PostAuthorize("isAuthenticated()")
     @Operation(summary = "Get book by ID")
     @ResponseStatus(code = HttpStatus.OK)
@@ -46,7 +46,7 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "The request succeeded"),
             @ApiResponse(responseCode = "409", description = "Book not found", content = @Content)
     })
-    public GetBookDto getById( Integer id) {
+    public GetBookDto getById( @PathVariable Integer id) {
         return bookService.getById(id);
     }
 
@@ -60,15 +60,14 @@ public class BookController {
         return bookService.add(book);
     }
 
-    @DeleteMapping("/delete")
-    @PostAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete a book by ID")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204", description = "Removed"),
             @ApiResponse(responseCode = "409", description = "Book not found", content = @Content)
     })
-    public ResponseEntity<Void> delete(Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         bookService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -84,8 +83,7 @@ public class BookController {
         return bookService.getByTitle(title);
     }
 
-    @PostMapping("/update")
-    @PostAuthorize("isAuthenticated()")
+    @PutMapping("/update/{id}")
     @Operation(summary = "Update a book")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -93,8 +91,14 @@ public class BookController {
             @ApiResponse(responseCode = "204", description = "Book updated"),
             @ApiResponse(responseCode = "409", description = "Book not found", content = @Content)
     })
-    public @ResponseBody CreateBookResponseDto update(@RequestBody @Validated  CreateBookDto book) {
-        return bookService.update(book);
+
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CreateBookDto bookDTO) {
+        try {
+            bookService.update(id, bookDTO);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 }
